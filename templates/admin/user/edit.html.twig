@@ -1,0 +1,34 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Édition de l'utilisateur {{user.nom}} {{user.prenom}} | {{ site_nom }}{% endblock %}
+
+{% block stylesheets %}{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1 class="text-center">Édition de l'utilisateur {{user.nom}} {{user.prenom}}</h1>
+        {{ form_start(form) }}
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+                {{ form_widget(form) }}
+            </div>
+        </div>
+        <div class="row my-5">
+            <div class="col">
+                <div class="d-flex justify-content-center">
+                    <button id="submit" type="submit" class="btn btn-success mr-2">
+                        <span id="b-e-default"><i class="far fa-save"></i></span> 
+                        <span id="b-e-loading" class="spinner-border spinner-border-sm" style="display:none;" role="status"></span>
+                        &nbsp;Enregistrer les modifications
+                    </button>
+                    <a href="{{ path('admin_user_index') }}" class="btn btn-danger ml-2" id="cancel">
+                        <i class="fas fa-undo-alt"></i>&nbsp;&nbsp;Annuler les modifications
+                    </a>
+                </div>
+            </div>
+        </div>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}
+
+{% block javascripts %}{% endblock %}

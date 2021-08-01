@@ -1,0 +1,71 @@
+security:
+    encoders:
+        Symfony\Component\Security\Core\User\User: bcrypt
+        App\Entity\User:
+            algorithm: bcrypt
+
+    # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+    providers:
+        chain_provider:
+            chain:
+                providers: ['users_in_memory', 'in_database']
+        users_in_memory:
+            memory:
+                users:
+                    superadmin@symfony.com: { password: '$2y$13$BjqF6uc2W/RurtYAqDdQmu3gFqX3/gbO2B8FkNVtM65.pPp3HLw36', roles: ['ROLE_SUPER_ADMIN'] }
+        in_database:
+            entity:
+                class: App\Entity\User
+                property: email
+
+    role_hierarchy:
+        ROLE_EDITEUR : ROLE_USER
+        ROLE_ADMIN: ROLE_EDITEUR
+        ROLE_SUPER_ADMIN: ROLE_ADMIN
+
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        admin:
+            pattern: ^/(admin|elfinder|efconnect)
+            anonymous: true
+            lazy: true
+
+            provider: chain_provider
+
+            form_login:
+                #default_target_path: admin_ads_index
+                login_path: admin_account_login
+                check_path: admin_account_login
+
+            logout:
+                path: admin_account_logout
+                target: admin_account_login
+            guard:
+                authenticators:
+                    - App\Security\LoginFormAuthenticator
+
+            switch_user: true    
+
+        main:
+            anonymous: true # ~
+            lazy: true
+            provider: users_in_memory
+
+            # activate different ways to authenticate
+            # https://symfony.com/doc/current/security.html#firewalls-authentication
+
+            # https://symfony.com/doc/current/security/impersonating_user.html
+            # switch_user: true
+
+    # Easy way to control access for large sections of your site
+    # Note: Only the *first* access control that matches will be used
+    access_control:
+        - { path: ^/admin/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/admin/user, roles: ROLE_ADMIN }
+        - { path: ^/admin/information, roles: ROLE_ADMIN }
+        - { path: ^/admin, roles: ROLE_EDITEUR }
+        - { path: ^/efconnect, role: ROLE_EDITEUR }
+        - { path: ^/elfinder, role: ROLE_EDITEUR }

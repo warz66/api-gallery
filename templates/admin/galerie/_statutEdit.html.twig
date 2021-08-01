@@ -1,0 +1,7 @@
+{% block _galerie_statut_widget %}
+    <label class="font-weight-bold" for="{{ form.vars.id }}">Publier en ligne</label>
+    <div class="custom-control custom-switch custom-switch-adaptive h5" style="margin:0;">
+      <input id="{{ form.vars.id }}" name="{{ form.vars.full_name }}" type="checkbox" class="custom-control-input" value="{{ form.vars.checked }}" {% if form.vars.checked %} checked {% endif %}>
+      <label for="{{ form.vars.id }}" class="custom-control-label">&zwj;</label>
+    </div>
+{% endblock %}

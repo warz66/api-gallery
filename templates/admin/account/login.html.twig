@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion à l'administration</title>
+
+    {{ encore_entry_link_tags('css/admin.app') }}
+
+    {#<link rel="stylesheet" href="/css/app.css">
+    <link rel="stylesheet" href="/css/bootstrap.united.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css" integrity="sha384-v8BU367qNbs/aIZIxuivaU55N5GPF89WBerHoGA4QTcbUjYiLQtKdrfXnqAcXyTv" crossorigin="anonymous">#}
+</head>
+<body>
+    <div class="container-fluid d-flex justify-content-center">
+        <div class="col-lg-4 mt-5">
+            <div class="card bg-light">
+                <div class="card-header">
+                    <h4 class="card-title">
+                        <i class="fas fa-lock"></i>
+                        Connexion à l'administration
+                    </h4>
+                </div>
+                <div class="card-body">   
+                    {% if error %}
+                        <div class="alert alert-danger">
+                        {{ error.messageKey|trans(error.messageData, 'security') }}
+                        </div>
+                    {% endif %}
+                    {% for label, messages in app.flashes %}
+                        <div class="alert alert-{{label}}">
+                            {% for message in messages %}
+                                <p>{{ message | raw }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endfor %} 
+                    <form method="post">
+                        <input name="username" type="text" id="username" class="coucou"> {# honeypot #}
+                        <div class="form-group">
+                            <label for="inputEmail">Email</label>
+                            <input type="email" class="form-control" placeholder="Adresse email ..." name="email" value="{{ username }}" id="inputEmail" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputPassword">Mot de passe</label>
+                            <input type="password" class="form-control" placeholder="Mot de passe ..." name="password" id="inputPassword" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                            <input type="hidden" id="recaptchaResponse" name="g-recaptcha-response">
+                            <input type="hidden" id="grecaptchakey" data-grecaptchakey="{{google_recaptcha_v3_site_key}}"> 
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-lock-open"></i>
+                                Connexion !
+                            </button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{ encore_entry_script_tags('js/admin.app') }}
+
+    {#<script src="/js/jquery.min.js"></script>
+    <script src="/js/popper.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>#}
+    {#<script src='https://www.google.com/recaptcha/api.js?render={{google_recaptcha_site_key}}'></script>#}
+    <script>
+        var grecaptchakey = $('#grecaptchakey').data('grecaptchakey'); 
+        document.write("<script src=\"https://www.google.com/recaptcha/api.js?render="+grecaptchakey+"\"><"+"/script>");
+    </script>
+    <script>
+        $('.coucou').hide();
+        grecaptcha.ready(function() {
+          grecaptcha.execute(grecaptchakey, {action: 'submit'}).then(function(token) {
+              document.getElementById("recaptchaResponse").value = token;
+          });
+        });
+    </script>
+</body>
+</html>

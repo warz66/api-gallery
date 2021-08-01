@@ -1,0 +1,60 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Mon compte | {{ site_nom }}{% endblock %}
+
+{% block stylesheets %}{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1 class="text-center">Mon compte</h1>
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card bg-light bg-white mb-5">
+                    <div class="card-header text-center bg-primary">
+                        <h4 class="card-title text-white">
+                        <i class="fas fa-info-circle"></i>
+                        Informations personnelles
+                        </h4>
+                    </div>
+                    <div class="card-body"> 
+                        {{ form_start(form) }}
+                        {{ form_widget(form) }}
+                        <div class="d-flex justify-content-center">
+                            <button id="submit" type="submit" class="btn btn-success mr-2">
+                                <span id="b-e-default"><i class="far fa-save"></i></span> 
+                                <span id="b-e-loading" class="spinner-border spinner-border-sm" style="display:none;" role="status"></span>
+                                &nbsp;Valider
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                {{ form_end(form) }}
+            </div>
+            <div class="col-md-6">
+                <div class="card bg-light bg-white mb-5">
+                    <div class="card-header text-center bg-primary">
+                        <h4 class="card-title text-white">
+                        <i class="fas fa-key"></i>
+                        Changer de mot de passe
+                        </h4>
+                    </div>
+                    <div class="card-body"> 
+                        {{ form_start(formPassword) }}
+                        {{ form_widget(formPassword) }}
+                        <div class="d-flex justify-content-center">
+                            <button id="submit" type="submit" class="btn btn-success mr-2">
+                                <span id="b-e-default"><i class="far fa-save"></i></span> 
+                                <span id="b-e-loading" class="spinner-border spinner-border-sm" style="display:none;" role="status"></span>
+                                &nbsp;Valider
+                            </button>
+                        </div>
+                        {{ form_end(formPassword) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}
+
+{% block javascripts %}{% endblock %}

@@ -1,0 +1,92 @@
+.container {
+    min-width: 80%;
+}
+
+tbody {
+    cursor:pointer;
+}
+
+#publication_parent {
+    cursor:pointer;
+}
+
+::placeholder {
+    font-style: italic;
+}
+
+h1 {
+    margin: 65px 0 65px 0 !important;
+    font-weight: bold;
+}
+
+table.table {
+    background-color: rgb(240,240,240);
+    border: 1px solid rgb(232,232,232);
+    /*box-shadow: 1px 0px 1px 1px rgb(114, 114, 114, 0.3);*/
+}
+
+table.table td {
+    padding: 20px !important;
+    color: #5a5a5a;
+}
+
+/**************** button on off *******************/
+.custom-switch.custom-switch-adaptive {
+    padding-left: 0;
+}
+.custom-switch.custom-switch-adaptive .custom-control-label {
+   padding: 0 1.3em;
+   cursor:pointer;
+   position: relative;
+   border-radius: 1em;
+   line-height: 1.4em;
+   border: 1px solid #888;
+   background-color: #f8f9fa;
+   transition: background-color 200ms;
+}
+.custom-switch.custom-switch-adaptive .custom-control-label::before {
+   content: none;
+}
+.custom-switch.custom-switch-adaptive .custom-control-label::after {
+   position: absolute;
+   background-color: #888;
+   height: 1.2em;
+   top: 0.1em;
+   left: 0.1em;
+   width: 1.2em;
+   border-radius: 1em;
+   transition: left 200ms;
+}
+.custom-switch.custom-switch-adaptive .custom-control-input:checked ~ .custom-control-label {
+   background-color: #78c2ad;
+   border-color: #78c2ad;
+}
+.custom-switch.custom-switch-adaptive .custom-control-input:checked ~ .custom-control-label::after {
+   background-color: #fff;
+   left: calc(100% - 1.2em);
+   transform: none;
+   -webkit-transform: none;
+}
+.custom-switch.custom-switch-adaptive .custom-control-label:hover {
+   box-shadow: 0 0 6px 0px #888;
+   transition: 0.15s
+}
+.custom-switch.custom-switch-adaptive .custom-control-input:checked ~ .custom-control-label:hover {
+    box-shadow: 0 0 6px 0px #78c2ad;
+    transition: 0.15s
+ }
+
+/*****************************************************/
+
+.custom-file-label::after { 
+    content: "Parcourir" !important;
+}
+
+@media (max-width: 1300px) {
+    .container {
+        min-width: 100%;
+    }
+    table.table td {
+        padding:10px!important;
+    }
+}

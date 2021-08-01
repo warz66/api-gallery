@@ -1,0 +1,54 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Administration des galeries d'images | {{ site_nom }}{% endblock %}
+
+{% block stylesheets %}
+{{ encore_entry_link_tags('css/admin.galerie.new') }}
+{% endblock %}
+
+{% form_theme form  'admin/galerie/_statutEdit.html.twig' %}
+
+{% block body %}
+<div class="container">
+    <h1 class="text-center">Nouvelle Galerie</h1>
+    <hr class="mb-5 mt-5">
+    {{ form_start(form) }}
+        <div class="row">
+            <div class="col-lg-6">
+                {{form_row(form.title)}}
+                {{form_row(form.description)}}
+                {{form_row(form.order_by)}}
+                <fieldset class="form-group">
+                    <legend class="col-form-label font-weight-bold">Images de la galerie</legend>
+                    <div class="custom-file mb-3">
+                        <input type="file" class="custom-file-input" name="uploadFile[]" id="uploadFile" accept=".jpg, .png"  multiple/>
+                        <label class="custom-file-label" for="uploadFile" id="uploadFileLabel"><i class="text-muted">Choisissez des images</i></label>
+                    </div>
+                    <div id="inputFilesError" class="alert alert-danger" role="alert" style="display:none;"></div>  
+                </fieldset>
+                {{form_row(form.statut)}}
+            </div>
+            <div class="col-lg-6">
+                {{form_row(form.imageFile, {'image_uri':asset('/img/rsc/adminCoverImgNew600x300.jpg')})}}  
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col">
+                <div class="d-flex justify-content-center">
+                    <button id="submit" type="submit" class="btn btn-success mr-2">
+                        <span id="b-e-default"><i class="far fa-save"></i></span> 
+                        <span id="b-e-loading" class="spinner-border spinner-border-sm" style="display:none;" role="status"></span>
+                        &nbsp;Enregistrer la galerie
+                    </button>
+                    <a href="{{ path('admin_galerie_index') }}" class="btn btn-danger ml-2" id="cancel">
+                        <i class="fas fa-undo-alt"></i> Retour à l'index
+                    </a>
+                </div>
+            </div>
+        </div>
+    {{ form_end(form) }}
+{% endblock %}
+
+{% block javascripts %}
+{{ encore_entry_script_tags('js/admin.galerie.new') }}
+{% endblock %}

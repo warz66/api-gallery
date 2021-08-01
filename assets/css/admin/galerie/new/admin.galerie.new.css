@@ -1,0 +1,22 @@
+.custom-file-input {
+    cursor: pointer;
+}
+
+.vich-image img {
+    margin-top: 30px;
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    border-radius:0.25rem;
+}
+
+.vich-image a {
+    pointer-events: none;
+    cursor: default;
+}    
+
+legend {
+    padding-top:0 !important;
+}
+

@@ -1,0 +1,29 @@
+{% block _galerie_images_widget %}
+        {{ form_widget(form) }}
+{% endblock %}
+
+{% block _galerie_images_entry_row %}
+    {{ form_widget(form) }} 
+{% endblock %}
+
+{% block _galerie_images_entry_widget %}
+        <div class="grid-item mb-0" id="block_{{id}}">
+            <div>
+                <i data-action="delete" data-target="#block_{{id}}" class="far fa-trash-alt"></i>
+                {% if 'picsum' in form.vars.value.url %} {# à virer une fois en prod #}
+                    <a href="{{ form.vars.value.url }}" data-fancybox="images" data-caption="{{ form.caption.vars.value }}">
+                        <img class="rounded-top" src="{{form.vars.value.url}}" alt="">
+                    </a>
+                {% else %}
+                    <a href="{{ form.vars.value.url }}" data-fancybox="images" data-caption="{{ form.caption.vars.value }}">
+                        <img class="rounded-top" src="{{ form.vars.value.url | imagine_filter('galerie_content_edit') }}" alt="">
+                    </a>
+                {% endif %}
+            </div>
+            <div>
+                <i class="fas fa-pencil-alt"></i>
+                {{ form_row(form.caption , {'value' : form.vars.value.caption, 'spellcheck' : 'false', 'attr' : {'class' : 'rounded-bottom border-top-0 captionImg'}}) }}
+                {{form_row(form.captionStatus, {'attr': {'class' : 'captionStatus', 'value' : '0-' ~ form.vars.value.id ~ '-' ~ form.vars.value.caption } })}}
+            </div>
+        </div>
+{% endblock %}

@@ -1,0 +1,68 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Administration des utilisateurs | {{ site_nom }}{% endblock %}
+
+{% block stylesheets %}{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1 class="text-center">Utilisateurs</h1>
+        <table class="table table-hover" style="width:100%">
+            <thead>
+                <tr>
+                    <th class="text-center align-middle">Nom</th>
+                    <th class="text-center align-middle">Email</th>
+                    <th class="text-center align-middle">Rôle</th>
+                    <th class="text-center align-middle">Informations</th>
+                    <th class="text-center align-middle"><a href="{{ path('admin_user_new') }}" class="btn btn-outline-primary" style="width: 44px" title="Nouvel utilisateur"><i class="fas fa-plus"></i></a></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                    <tr data-id='{{ user.id }}' class="table-light">
+                        <td onclick="document.location = '{{ path('admin_user_edit',{'id': user.id }) }}';" class="align-middle text-center" title="Editer">{{user.nom}}</td>
+                        <td onclick="document.location = '{{ path('admin_user_edit',{'id': user.id }) }}';" class="align-middle text-center" title="Editer">{{user.email}}</td>
+                        <td onclick="document.location = '{{ path('admin_user_edit',{'id': user.id }) }}';" class="align-middle text-center" title="Editer">{% if user.role is null %}Aucun rôle{% else %}{{user.role.title}}{% endif %}</td>
+                        <td onclick="document.location = '{{ path('admin_user_edit',{'id': user.id }) }}';" class="align-middle text-center" title="Editer">{{user.informations}}</td>
+                        <td class="align-middle text-center">
+                            {% if app.user.id is defined %}
+                                {% if user.id != app.user.id  %}
+                                    <button data-id='{{ user.id }}' data-nom='{{ user.nom }}' class="btn btn-outline-primary btnDelete" title="supprimer" style="width: 44px;"><i class="fas fa-fire-alt"></i></button>    
+                                {% endif %}
+                            {% elseif  is_granted('ROLE_ADMIN') %}
+                                <button data-id='{{ user.id }}' data-nom='{{ user.nom }}' class="btn btn-outline-primary btnDelete" title="supprimer" style="width: 44px;"><i class="fas fa-fire-alt"></i></button>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>   
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="/js/bootbox.min.js"></script>
+    <script>
+        $('.btnDelete').click(function(e) {
+            var id = $(this).data('id');
+            bootbox.dialog({
+                message: "Êtes-vous sûr de vouloir supprimer définitivement cet utilisateur: <strong>"+$(this).data('nom')+"</strong>",
+                buttons: {
+                    annuler: {
+                        label: 'Annuler',
+                        className: 'btn-danger',
+                    },
+                    valider: {
+                        label: 'Valider',
+                        className: 'btn-success',
+                        callback: function(result){
+                            if (result) {
+                                window.location = '/admin/user/'+id+'/delete';
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+{% endblock %}

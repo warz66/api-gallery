@@ -1,0 +1,62 @@
+<div class="wrapper">
+
+        <nav id="sidebar">
+        
+            <div class="sidebar-header bg-primary mb-3">
+                <h4>CHINTAMANI</h4>
+            </div>
+
+            <ul class="list-unstyled">
+                <li class="{% if app.request.attributes.get('_route') == 'admin_galerie_index' or app.request.attributes.get('_route') == 'admin_galerie_new' or app.request.attributes.get('_route') == 'admin_galerie_edit' or app.request.attributes.get('_route') == 'admin_galerie_trash_index' %} active {% endif %}">
+                    <a href="{{ path('admin_galerie_index') }}"><i class="far fa-images mr-2"></i>Galeries</a>
+                </li>
+                <div class="dropdown-divider"></div>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <li class="{% if app.request.attributes.get('_route') == 'admin_user_index' or app.request.attributes.get('_route') == 'admin_user_new' or app.request.attributes.get('_route') == 'admin_user_edit' %} active {% endif %}">
+                        <a href="{{ path('admin_user_index') }}"><i class="fas fa-users mr-2"></i>Utilisateurs</a>
+                    </li>
+                {% endif %}
+            </ul>
+
+        </nav>
+
+        <div id="content">
+
+            <nav class="navbar navbar-expand-lg navbar-default bg-default">
+
+                <div class="container-fluid p-0">
+
+                    <button type="button" id="sidebarCollapse" class="btn btn-primary">
+                        <i class="fas fa-align-left"></i>
+                    </button>
+
+                    <button class="btn btn-primary d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <i class="fas fa-align-justify"></i>
+                    </button>
+
+                    <div class="collapse navbar-collapse text-right" id="navbarSupportedContent">
+                        <ul class="nav navbar-nav ml-auto text-primary">
+                            {% if not is_granted('ROLE_SUPER_ADMIN') %}
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ path('admin_account_profile') }}">Mon compte</a>
+                                </li>
+                            {% endif %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ path('admin_account_logout') }}">Se déconnecter</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+                
+            </nav>
+
+{% for label, messages in app.flashes %}
+    <div class="container">
+        <div class="alert alert-{{label}}">
+            {% for message in messages %}
+                <p>{{ message | raw }}</p>
+            {% endfor %}
+        </div>    
+    </div>
+{% endfor %}

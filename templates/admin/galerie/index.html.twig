@@ -1,0 +1,59 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Administration des galeries d'images | {{ site_nom }}{% endblock %}
+
+{% block stylesheets %}
+    {{ encore_entry_link_tags('css/admin.galerie.index') }}
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1 class="text-center">Galeries d'images</h1>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th class="text-center align-middle">Image de couverture</th>
+                    <th class="text-center align-middle">Titre de la galerie</th>
+                    <th class="text-center align-middle">Description</th>
+                    <th class="text-center align-middle">En ligne</th>
+                    <th class="text-center align-middle"><a href="{{ path('admin_galerie_new') }}" class="btn btn-outline-primary" style="width: 44px" title="Nouvelle galerie"><i class="fas fa-plus"></i></a></th>
+                    <th class="text-center align-middle"><a href="{{ path('admin_galerie_trash_index') }}" class="btn btn-outline-primary" style="width: 44px" title="Voir la corbeille"><i class="fas fa-dumpster"></i></a></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for galerie in galeries %}
+                    <tr data-id='{{ galerie.id }}' class="table-light">
+                    {% if 'picsum' in galerie.coverImage %} {# à virer une fois en prod #}
+                        <td onclick="document.location = '{{ path('admin_galerie_edit',{'id': galerie.id }) }}';" class="text-center align-middle">
+                            <img style="max-width:300px;height:auto;" src="{{galerie.coverImage}}" alt="">
+                        </td>
+                    {% else %}
+                        <td onclick="document.location = '{{ path('admin_galerie_edit',{'id': galerie.id }) }}';" class="text-center align-middle">
+                            <img src="{{(galerie_cover_path ~ galerie.coverImage) | imagine_filter('galerie_cover_index_thumb')}}" alt="">
+                        </td>
+                    {% endif %}
+                        <td onclick="document.location = '{{ path('admin_galerie_edit',{'id': galerie.id }) }}';" class="align-middle text-center">{{galerie.title}}</td>
+                        <td onclick="document.location = '{{ path('admin_galerie_edit',{'id': galerie.id }) }}';" class="align-middle text-center">{{galerie.description}}</td>
+                        <td class="align-middle text-center" style="width:17%">
+                            <div class="custom-control custom-switch custom-switch-adaptive h5" style="margin:0;">
+                                <input data-id='{{ galerie.id }}' id="statut{{ galerie.id }}" type="checkbox" class="custom-control-input statutCheckbox" {% if galerie.statut %} checked {% endif %}>
+                                <label for="statut{{ galerie.id }}" title="Publier" class="custom-control-label">&zwj;</label>
+                            </div>
+                        </td>
+                        <td class="align-middle text-center"><a href="{{ path('admin_galerie_edit',{'id': galerie.id }) }}" class="btn btn-outline-primary" style="width: 44px" title="Editer la galerie"><i class="fas fa-edit"></i></a></td>
+                        <td class="align-middle text-center">
+                            <button data-id='{{ galerie.id }}' data-title='{{ galerie.title }}' class="btn btn-outline-primary btnTrash" title="Envoyer vers la corbeille" style="width: 44px;"><i class="fas fa-trash"></i></button>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>   
+        <div class="text-center">
+            {{ knp_pagination_render(galeries) }}
+        </div>  
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('js/admin.galerie.index.app') }}
+{% endblock %}

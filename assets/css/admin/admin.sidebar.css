@@ -1,0 +1,103 @@
+a,
+a:hover {
+    color: inherit;
+    text-decoration: none !important;
+    transition: color 0.3s, background-color 0.3s;
+}
+
+/* ---------------------------------------------------
+    SIDEBAR STYLE
+----------------------------------------------------- */
+
+.wrapper {
+    display: flex;
+    width: 100%;
+    min-height: 100vh;
+    align-items: stretch;
+}
+
+#sidebar {
+    min-width: 230px;
+    max-width: 230px;
+    background: #f9fafb;
+    color: #fff;
+    transition: margin-left 0.3s;
+    box-shadow: 3px 0px 2px rgb(114, 114, 114, 0.3);
+}
+
+#sidebar.active {
+    margin-left: -233px;
+}
+
+.sidebar-header {
+    position: relative;
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#sidebar .sidebar-header::after {
+    position: absolute;
+    content: "";
+    width: 80px;
+    height: 80px;
+    background-color: #f9c5a3;
+    -webkit-mask: url('/img/views/sri-yantra-logo.svg') no-repeat 50% 50%;
+}
+
+#sidebar h4 {
+    position: absolute;
+    color: white;
+    z-index: 10;
+    margin-bottom: 0px;
+}
+
+#sidebar ul li a {
+    padding: 10px 10px 10px 30px;
+    font-size: 1.1em;
+    display: block;
+    color: #78c2ad;
+}
+
+#sidebar ul li a:hover {
+    color: #fff;
+    background: #f9c5a3;
+}
+
+#sidebar li.active > a {
+    color: #fff;
+    background: #78c2ad;
+}
+
+ul ul a {
+    padding-left: 60px !important;
+}
+
+#navbarSupportedContent ul a:hover {
+    color: #f9c5a3;    
+}
+
+/* ---------------------------------------------------
+    CONTENT STYLE
+----------------------------------------------------- */
+
+#content {
+    width: 100%;
+}
+
+/* ---------------------------------------------------
+    MEDIAQUERIES
+----------------------------------------------------- */
+
+@media (max-width: 960px) {
+    #sidebar {
+        margin-left: -233px;
+    }
+    #navbarSupportedContent {
+        margin-top: 20px;
+    }
+    #sidebar.active {
+        margin-left: 0px;
+    }
+}

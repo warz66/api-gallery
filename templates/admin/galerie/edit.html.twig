@@ -1,0 +1,87 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Administration des galeries d'images | {{ site_nom }}{% endblock %}
+
+{% block stylesheets %}
+{{ encore_entry_link_tags('css/admin.galerie.edit.app') }}
+{% endblock %}
+
+{% form_theme form  with ['admin/galerie/_collectionEdit.html.twig', 'admin/galerie/_statutEdit.html.twig'] %}
+
+{% block body %}
+<div class="container">
+    <div class="mt-5 position-relative rounded" id="titreDiv">
+        {% if 'picsum' in form.vars.value.coverImage %}
+            <img id="titreImage" class="rounded" src="{{form.vars.value.coverImage}}" alt="">
+        {% else %}
+            <img id="titreImage" class="rounded" src="{{(galerie_cover_path ~ form.vars.value.coverImage) | imagine_filter('galerie_title_edit') }}" alt="">
+        {% endif %}
+        <h1 class="text-center m-0" id="titreGalerie">Galerie {{form.vars.value.title}}</h1>
+    </div>
+    <hr class="mb-5 mt-5">
+    {{ form_start(form, {'action': path('admin_galerie_edit',{'id':galerieId, 'page':1})}) }}
+        <div class="row">
+            <div class="col-lg-6">
+                {{form_row(form.title)}}
+                {{form_row(form.description)}}
+                {{form_row(form.order_by)}}
+                <fieldset class="form-group">
+                    <legend class="col-form-label font-weight-bold">Rajouter des images</legend>
+                    <div class="custom-file mb-3">
+                        <input type="file" class="custom-file-input" name="uploadFile[]" id="uploadFile" accept=".jpg, .png"  multiple/>
+                        <label class="custom-file-label" for="uploadFile" id="uploadFileLabel"><i class="text-muted">Choisissez des images à rajouter</i></label>
+                    </div>
+                    <div id="inputFilesError" class="alert alert-danger" role="alert" style="display:none;"></div>  
+                </fieldset>
+                {{form_row(form.statut)}}
+            </div>
+            <div class="col-lg-6">
+                {{form_row(form.imageFile)}}
+                <input id="inputImgFileName" type="hidden" data-imgfile="{{form.vars.value.coverImage}}">  
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col">
+                <div class="d-flex justify-content-center">
+                    <button disabled="true" id="submit" type="submit" class="btn btn-success mr-2">
+                        <span id="b-e-default"><i class="far fa-save"></i></span> 
+                        <span id="b-e-loading" class="spinner-border spinner-border-sm" style="display:none;" role="status"></span>
+                        &nbsp;Enregistrer les modifications
+                    </button>
+                    <a href={% if trash is defined and trash %} "{{ path('admin_galerie_trash_index') }}" {% else %} "{{ path('admin_galerie_index') }}" {% endif %} class="btn btn-danger ml-2" id="cancel">
+                        <i class="fas fa-undo-alt"></i>&nbsp;&nbsp;Retour à l'index
+                    </a>
+                </div>
+            </div>
+        </div>
+        <hr class="mt-5 mb-5">
+        <div class='row'>
+            <div class="col">
+                {{ form_row(form.images) }}
+            </div>
+        </div>
+    {{ form_end(form) }}
+    <div class="page-load-status">
+        <div class="loader-ellips infinite-scroll-request">
+            <div class="spinner-grow text-secondary" role="status">
+                <span class="sr-only">Chargement...</span>
+            </div>
+            <div class="spinner-grow text-secondary" role="status">
+                <span class="sr-only">Chargement...</span>
+            </div>
+            <div class="spinner-grow text-secondary" role="status">
+                <span class="sr-only">Chargement...</span>
+            </div>            
+        </div>
+        <p class="infinite-scroll-last">Fin de la galerie</p>
+        <p class="infinite-scroll-error">Plus de pages à charger</p>
+    </div>
+    <a id="cRetour"><i class="fas fa-arrow-up"></i></a>
+    <input id="pageMax" type="hidden" value="{{ pageMax }}">
+    <input id="galerieId" type="hidden" value="{{ galerieId }}">   
+</div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('js/admin.galerie.edit.app') }}
+{% endblock %}

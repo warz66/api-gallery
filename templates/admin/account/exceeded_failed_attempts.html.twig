@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tentatives de connexions dépassées</title>
+    <link rel="stylesheet" href="/css/app.css">
+    <link rel="stylesheet" href="/css/bootstrap.united.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css" integrity="sha384-v8BU367qNbs/aIZIxuivaU55N5GPF89WBerHoGA4QTcbUjYiLQtKdrfXnqAcXyTv" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container-fluid d-flex justify-content-center">
+        <div class="alert alert-danger mt-5">
+            <h4 class="text-danger"><strong><i class="fas fa-exclamation-triangle"></i> Alerte !</strong></h4>
+            <p class="mt-3">Le nombre maximum de tentatives de connexions autorisées a été dépassé. Veuillez vous reconnecter ultérieurement.</p>
+            <a href="{{ path('homepage') }}" class="btn btn-link float-right">
+                <i class="fas fa-arrow-circle-left"></i>
+                Retour à la page d'accueil
+            </a>
+        </div>
+    </div>
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/popper.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>    
+</body>
+</html>
