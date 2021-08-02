@@ -6,7 +6,9 @@ use Cocur\Slugify\Slugify;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Collection;
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -18,6 +20,12 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  * @Vich\Uploadable
  * @ORM\HasLifecycleCallbacks()
  * @UniqueEntity(fields={"title"}, message="Une autre galerie possède déjà ce titre, merci de le modifier")
+ * @ApiResource(
+ *     normalizationContext={"groups"={"read"}},
+ *     denormalizationContext={"groups"={"write"}},
+ *     collectionOperations={"get"},
+ *     itemOperations={"get"}
+ * )
  */
 class Galerie
 {
@@ -25,6 +33,7 @@ class Galerie
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"read"})
      */
     private $id;
 
@@ -32,17 +41,20 @@ class Galerie
      * @ORM\Column(type="string", length=255)
      * @Assert\Length(max=100, maxMessage="Le titre ne peut pas faire plus de 100 caractères")
      * @Assert\NotBlank
+     * @Groups({"read"})
      */
     private $title;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Assert\Length(max=255, maxMessage="La description ne peut pas faire plus de 255 caractères")
+     * @Groups({"read"})
      */
     private $description;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"read"})
      */
     private $cover_image;
 
@@ -54,7 +66,8 @@ class Galerie
     private $imageFile;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Image", mappedBy="galerie", orphanRemoval=true, cascade={"persist"}) 
+     * @ORM\OneToMany(targetEntity="App\Entity\Image", mappedBy="galerie", orphanRemoval=true, cascade={"persist"})
+     * @Groups({"read"}) 
      */
     private $images;
 
@@ -80,6 +93,7 @@ class Galerie
 
     /**
      * @ORM\Column(type="boolean")
+     * @Groups({"read"})
      */
     private $statut;
 
