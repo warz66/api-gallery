@@ -52,11 +52,10 @@ class AdminGalerieController extends AbstractController
                     if(is_uploaded_file($_FILES['uploadFile']['tmp_name'][$i]) && $_FILES['uploadFile']['size'][$i] < 1000000 && $_FILES['uploadFile']['error'][$i] === 0 && ($_FILES['uploadFile']['type'][$i] === 'image/jpeg' || $_FILES['uploadFile']['type'][$i] === 'image/png')) {
                         $source_path = $_FILES['uploadFile']['tmp_name'][$i];
                         $file = uniqid() . '_' . $_FILES['uploadFile']['name'][$i];
-                        $img_path = $this->getParameter('galerie_content_path') . $file;
                         $img = new Image;
                         $img->setSource_path($source_path);
                         $img->setGalerie_content_path($this->getParameter('galerie_content_path'));
-                        $img->setUrl($img_path);
+                        $img->setUrl($file);
                         $img->setGalerie($galerie);
                         $manager->persist($img);
                     } else {
@@ -131,11 +130,10 @@ class AdminGalerieController extends AbstractController
                     if(is_uploaded_file($_FILES['uploadFile']['tmp_name'][$i]) && $_FILES['uploadFile']['size'][$i] < 1000000 && $_FILES['uploadFile']['error'][$i] === 0 && ($_FILES['uploadFile']['type'][$i] === 'image/jpeg' || $_FILES['uploadFile']['type'][$i] === 'image/png')) {
                         $source_path = $_FILES['uploadFile']['tmp_name'][$i];
                         $file = uniqid() . '_' . $_FILES['uploadFile']['name'][$i];
-                        $img_path = $this->getParameter('galerie_content_path') . $file;
                         $img = new Image;
                         $img->setSource_path($source_path);
                         $img->setGalerie_content_path($this->getParameter('galerie_content_path'));
-                        $img->setUrl($img_path);
+                        $img->setUrl($file);
                         $img->setGalerie($galerie);
                         $manager->persist($img);
                     } else {

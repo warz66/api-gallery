@@ -46,7 +46,7 @@ class Image
     public function saveFileImgOnServer()
     {   
         $target_directory = getcwd() . $this->galerie_content_path;
-        $target_path_file = getcwd() . $this->url;
+        $target_path_file = getcwd() .$this->galerie_content_path .$this->url;
         if (!file_exists($target_directory)) {
             mkdir($target_directory);
         }

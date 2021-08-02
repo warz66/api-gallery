@@ -14,7 +14,7 @@
         {% if 'picsum' in form.vars.value.coverImage %}
             <img id="titreImage" class="rounded" src="{{form.vars.value.coverImage}}" alt="">
         {% else %}
-            <img id="titreImage" class="rounded" src="{{(galerie_cover_path ~ form.vars.value.coverImage) | imagine_filter('galerie_title_edit') }}" alt="">
+            <img id="titreImage" class="rounded" src="{{form.vars.value.coverImage | imagine_filter('galerie_title_edit') }}" alt="">
         {% endif %}
         <h1 class="text-center m-0" id="titreGalerie">Galerie {{form.vars.value.title}}</h1>
     </div>

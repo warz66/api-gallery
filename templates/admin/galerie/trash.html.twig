@@ -27,7 +27,7 @@
                         </td>
                     {% else %}
                         <td onclick="document.location = '{{ path('admin_galerie_edit',{'id': galerie.id }) }}?trash=true';" class="text-center align-middle">
-                            <img src="{{(galerie_cover_path ~ galerie.coverImage) | imagine_filter('galerie_cover_index_thumb')}}" alt="">
+                            <img src="{{ galerie.coverImage | imagine_filter('galerie_cover_index_thumb')}}" alt="">
                         </td>
                     {% endif %}
                         <td onclick="document.location = '{{ path('admin_galerie_edit',{'id': galerie.id }) }}?trash=true';" class="align-middle text-center">{{galerie.title}}</td>

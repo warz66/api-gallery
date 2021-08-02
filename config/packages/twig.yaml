@@ -3,6 +3,8 @@ twig:
     form_themes: ['bootstrap_4_layout.html.twig']
     globals:
         google_recaptcha_v3_site_key: '%google_recaptcha_v3_site_key%'
+        galerie_cover_path: '%galerie_cover_path%'
+        galerie_content_path: '%galerie_content_path%'
         site_nom: '%site_nom%'
 
 when@test:

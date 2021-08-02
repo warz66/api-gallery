@@ -15,7 +15,7 @@
                         <img class="rounded-top" src="{{form.vars.value.url}}" alt="">
                     </a>
                 {% else %}
-                    <a href="{{ form.vars.value.url }}" data-fancybox="images" data-caption="{{ form.caption.vars.value }}">
+                    <a href="{{ galerie_content_path ~ form.vars.value.url }}" data-fancybox="images" data-caption="{{ form.caption.vars.value }}">
                         <img class="rounded-top" src="{{ form.vars.value.url | imagine_filter('galerie_content_edit') }}" alt="">
                     </a>
                 {% endif %}

@@ -22,7 +22,7 @@ class GalerieType extends AbstractType
         $builder
             ->add('title', TextType::class, ['label' => 'Titre', 'attr' => ['placeholder' => 'Veuillez choisir un titre', 'maxlength' => '100'],'label_attr' => ['class' => 'font-weight-bold']])
             ->add('description', TextareaType::class, ['label' => 'Description', 'required' => false, 'label_attr' => ['class' => 'font-weight-bold'], 'attr' => ['placeholder' => 'Veuillez décrire la galerie', 'spellcheck' => 'false', 'maxlength' => '255', 'rows' => '3', 'style' => 'resize:none; overflow:hidden;']])
-            ->add('imageFile', VichImageType::class, ['label' => 'Image de couverture', 'label_attr' => ['class' => 'font-weight-bold'], 'required' => false, 'allow_delete' => false, 'download_label' => false,'download_uri' => false,'imagine_pattern' => 'galerie_cover_edit', 'attr' => ['accept' => '.jpg, .png']])
+            ->add('imageFile', VichImageType::class, ['storage_resolve_method' => VichImageType::STORAGE_RESOLVE_PATH_RELATIVE, 'label' => 'Image de couverture', 'label_attr' => ['class' => 'font-weight-bold'], 'required' => false, 'allow_delete' => false, 'download_label' => false,'download_uri' => false,'imagine_pattern' => 'galerie_cover_edit', 'attr' => ['accept' => '.jpg, .png']])
             ->add('order_by', ChoiceType::class, ['label' => 'Trier par ordre', 'label_attr' => ['class' => 'font-weight-bold'], 'choices' => ['Croissant' => true, 'Décroissant' => false], 'placeholder' => false])
             ->add('statut', CheckboxType::class, ['required' => false])
             ->add('images', CollectionType::class, [
