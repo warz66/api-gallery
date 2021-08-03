@@ -11,6 +11,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class AdminGalerieController extends AbstractController
@@ -97,11 +98,32 @@ class AdminGalerieController extends AbstractController
 
         // on crée la pagination
         $nbImgPage = 30;
-        if ($galerie->getOrderBy()) { $order = 'ASC'; } else { $order = 'DESC'; }
+        /*if ($galerie->getOrderBy()) { $order = 'ASC'; } else { $order = 'DESC'; }
         $images = $galerie->getImagesOrderBy($order);
-        $pagination = $paginator->paginate($images, $request->query->getInt('page',$page), $nbImgPage);
-        
+        dump($images);*/
+        switch ($galerie->getParOrdre()) {
+            case 'OrdreTableauAsc': 
+                $images = $repo->getImagesByOrdreTableauAsc($galerie->getId());
+                //dump($images);
+                break;
+            case 'OrdreTableauDesc': 
+                $images = $repo->getImagesByOrdreTableauDesc($galerie->getId());
+                //dump($images);
+                break;
+            default:
+                $images = $repo->getImagesByOrdreTableauAsc($galerie->getId());
+                //dump($images);
+                break;
+        }
+
+        if ($request->isMethod('post')) { // si on ne voit pas qu'on rentre dans cette condition c a cause du redirect a la fin
+            $data = $request->request->all();
+            $pagination = $paginator->paginate($images, $request->query->getInt('page',1), $nbImgPage * (int)$data["galerie"]["up_to_page"]);
+        } else {
+            $pagination = $paginator->paginate($images, $request->query->getInt('page',$page), $nbImgPage);
+        }
         $form = $this->createForm(GalerieType::class, $galerie,[ "pagination" => $pagination ]);
+        
         $form->handleRequest($request);
 
         if ( $form->isSubmitted() && $form->isValid() ) {
@@ -114,11 +136,6 @@ class AdminGalerieController extends AbstractController
                     if($captionStatus[0] === '1') {
                         $imageOrigin = $repo->findOneBy(['id' => $captionStatus[1]]);
                         $manager->remove($imageOrigin);
-                    } else {
-                        if ($captionStatus[2] != $image['caption']) {
-                            $imageOrigin = $repo->findOneBy(['id' => $captionStatus[1]]);
-                            $imageOrigin->setCaption($image['caption']);
-                        }
                     }
                 }
             }
@@ -144,6 +161,8 @@ class AdminGalerieController extends AbstractController
             }
 
             $manager->flush();
+
+            //dd($pagination);
 
             if (empty($errorFile)) {
                 $this->addFlash('success', "La galerie <strong>{$galerie->getTitle()}</strong> a bien été modifiée !");
@@ -272,12 +291,27 @@ class AdminGalerieController extends AbstractController
      * 
      * @Route("/admin/galerie/{id}/{page<\d+>?1}/edit/next", name="admin_galerie_next")
      */
-    public function next(Galerie $galerie, Request $request, $page, PaginatorInterface $paginator)
+    public function next(Galerie $galerie, Request $request, $page, PaginatorInterface $paginator, ImageRepository $repo)
     {   
 
         $nbImgPage = 30;
-        if ($galerie->getOrderBy()) { $order = 'ASC'; } else { $order = 'DESC'; }
-        $pagination = $paginator->paginate($galerie->getImagesOrderBy($order), $request->query->getInt('page',$page), $nbImgPage);
+        /*if ($galerie->getOrderBy()) { $order = 'ASC'; } else { $order = 'DESC'; }
+        $images = $galerie->getImagesOrderBy($order);*/
+        switch ($galerie->getParOrdre()) {
+            case 'OrdreTableauAsc': 
+                $images = $repo->getImagesByOrdreTableauAsc($galerie->getId());
+                dump($images);
+                break;
+            case 'OrdreTableauDesc': 
+                $images = $repo->getImagesByOrdreTableauDesc($galerie->getId());
+                dump($images);
+                break;
+            default:
+                $images = $repo->getImagesByOrdreTableauAsc($galerie->getId());
+                dump($images);
+                break;
+        }
+        $pagination = $paginator->paginate($images, $request->query->getInt('page',$page), $nbImgPage);
 
         $form = $this->createForm(GalerieType::class, $galerie,[ "pagination" => $pagination ]);
 

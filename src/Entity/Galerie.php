@@ -103,6 +103,13 @@ class Galerie
     private $trash = 0;
 
     /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $par_ordre;
+
+    private $up_to_page = 1;
+
+    /**
      * Permet de contraindre la validation si une image de couverture n'a pas été ajouté 
      * @Assert\Callback
      */
@@ -353,6 +360,30 @@ class Galerie
     public function setTrash(bool $trash): self
     {
         $this->trash = $trash;
+
+        return $this;
+    }
+
+    public function getParOrdre(): ?string
+    {
+        return $this->par_ordre;
+    }
+
+    public function setParOrdre(string $par_ordre): self
+    {
+        $this->par_ordre = $par_ordre;
+
+        return $this;
+    }
+
+    public function getUpToPage(): ?int
+    {
+        return $this->up_to_page;
+    }
+
+    public function setUpToPage(?int $up_to_page): self
+    {
+        $this->up_to_page = $up_to_page;
 
         return $this;
     }

@@ -58,8 +58,8 @@ table.table td {
    transition: left 200ms;
 }
 .custom-switch.custom-switch-adaptive .custom-control-input:checked ~ .custom-control-label {
-   background-color: #78c2ad;
-   border-color: #78c2ad;
+   background-color: #593196;
+   border-color: #593196;
 }
 .custom-switch.custom-switch-adaptive .custom-control-input:checked ~ .custom-control-label::after {
    background-color: #fff;
@@ -72,7 +72,7 @@ table.table td {
    transition: 0.15s
 }
 .custom-switch.custom-switch-adaptive .custom-control-input:checked ~ .custom-control-label:hover {
-    box-shadow: 0 0 6px 0px #78c2ad;
+    box-shadow: 0 0 5px 0px #593196;
     transition: 0.15s
  }
 

@@ -15,7 +15,7 @@ html {
 .grid-item {
     z-index:1;
     width: calc((100% - 30px)/3); /* debug gutter */
-    margin-bottom: 0px;
+    margin-bottom: 15px;
     float: left;
 }
 
@@ -43,6 +43,10 @@ html {
     cursor: pointer;
 }
 
+.fa-undo:hover {
+    color: green;
+}
+
 .fa-trash-alt {
     z-index:11;
     position:absolute;
@@ -56,7 +60,16 @@ html {
     color: crimson;
 }
 
-.fa-undo:hover {
+.fa-cog {
+    z-index:11;
+    position:absolute;
+    left:0;
+    padding:10px;
+    color: black;
+    cursor: pointer;
+}
+
+.fa-cog:hover {
     color: green;
 }
 
@@ -149,8 +162,25 @@ a#cRetour.cVisible{
     border-radius:0;
 }
 
+.config-img .form-group {
+    margin-bottom: 0px;
+}
+
+.config-img-input {
+    border-radius:0;
+}
+
 .custom-file-input {
     cursor: pointer;
+}
+
+.config-img-close {
+    display: none;
+}
+
+.item-config-img-open {
+    border: 1px solid #593196;
+    box-shadow: 0 0 5px #593196;
 }
 
 @media (max-width: 1200px) {

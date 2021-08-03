@@ -72,6 +72,9 @@ if (pageMax>1) {
             this.on('append', function() {
                 $('i[data-action="delete"]').off('click');
                 handleStatutImg();
+                $('i[data-action="config"]').off('click');
+                openImageAttrConfig();
+                $('#upToPage').val(parseInt($('#upToPage').val()) + 1 );
             });
         }
     });
@@ -126,6 +129,16 @@ $('#uploadFile').on('change', function(event) {
         $('#submit').prop('disabled', true);
     }
 });
+
+function openImageAttrConfig() {
+    $('i[data-action="config"]').click(function() {
+        const target = this.dataset.target;
+        $(target+' .config-img').toggleClass("config-img-close");
+        $(target).toggleClass("item-config-img-open");
+        msnry.layout();
+    });
+}
+openImageAttrConfig();
 
 // Permet de manipuler l'apparence des image a supprimer, et de changer "le statut" de celle que l'on veut supprimer lors du submit
 function handleStatutImg() {

@@ -57,17 +57,17 @@ a:hover {
     padding: 10px 10px 10px 30px;
     font-size: 1.1em;
     display: block;
-    color: #78c2ad;
+    color: #593196;
 }
 
 #sidebar ul li a:hover {
     color: #fff;
-    background: #f9c5a3;
+    background: #a991d4;
 }
 
 #sidebar li.active > a {
     color: #fff;
-    background: #78c2ad;
+    background: #593196;
 }
 
 ul ul a {
@@ -75,7 +75,7 @@ ul ul a {
 }
 
 #navbarSupportedContent ul a:hover {
-    color: #f9c5a3;    
+    color: #a991d4;    
 }
 
 /* ---------------------------------------------------

@@ -6,7 +6,7 @@
 {{ encore_entry_link_tags('css/admin.galerie.edit.app') }}
 {% endblock %}
 
-{% form_theme form  with ['admin/galerie/_collectionEdit.html.twig', 'admin/galerie/_statutEdit.html.twig'] %}
+{% form_theme form with ['admin/galerie/_collectionEdit.html.twig', 'admin/galerie/_statutEdit.html.twig'] %}
 
 {% block body %}
 <div class="container">
@@ -19,12 +19,13 @@
         <h1 class="text-center m-0" id="titreGalerie">Galerie {{form.vars.value.title}}</h1>
     </div>
     <hr class="mb-5 mt-5">
-    {{ form_start(form, {'action': path('admin_galerie_edit',{'id':galerieId, 'page':1})}) }}
+    {{ form_start(form, {'action': path('admin_galerie_edit',{'id':galerieId, 'page':1}) }) }}
         <div class="row">
             <div class="col-lg-6">
                 {{form_row(form.title)}}
                 {{form_row(form.description)}}
                 {{form_row(form.order_by)}}
+                {{form_row(form.par_ordre)}}
                 <fieldset class="form-group">
                     <legend class="col-form-label font-weight-bold">Rajouter des images</legend>
                     <div class="custom-file mb-3">
@@ -43,12 +44,12 @@
         <div class="row mt-4">
             <div class="col">
                 <div class="d-flex justify-content-center">
-                    <button disabled="true" id="submit" type="submit" class="btn btn-success mr-2">
+                    <button disabled="true" id="submit" type="submit" class="btn btn-primary mr-2">
                         <span id="b-e-default"><i class="far fa-save"></i></span> 
                         <span id="b-e-loading" class="spinner-border spinner-border-sm" style="display:none;" role="status"></span>
                         &nbsp;Enregistrer les modifications
                     </button>
-                    <a href={% if trash is defined and trash %} "{{ path('admin_galerie_trash_index') }}" {% else %} "{{ path('admin_galerie_index') }}" {% endif %} class="btn btn-danger ml-2" id="cancel">
+                    <a href={% if trash is defined and trash %} "{{ path('admin_galerie_trash_index') }}" {% else %} "{{ path('admin_galerie_index') }}" {% endif %} class="btn btn-secondary ml-2" id="cancel">
                         <i class="fas fa-undo-alt"></i>&nbsp;&nbsp;Retour à l'index
                     </a>
                 </div>
@@ -60,6 +61,8 @@
                 {{ form_row(form.images) }}
             </div>
         </div>
+        {{form_row(form.up_to_page, {'id': 'upToPage'}) }}
+        {#<input id="upToPage" type="hidden">#}
     {{ form_end(form) }}
     <div class="page-load-status">
         <div class="loader-ellips infinite-scroll-request">

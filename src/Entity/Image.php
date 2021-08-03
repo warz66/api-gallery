@@ -48,6 +48,16 @@ class Image
     private $galerie_content_path;
 
     /**
+     * @ORM\OneToOne(targetEntity=Tableau::class, cascade={"persist", "remove"})
+     */
+    private $tableau;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $ordre;
+
+    /**
      * Undocumented function
      *
      * @ORM\PostPersist
@@ -119,6 +129,30 @@ class Image
     public function setGalerie_content_path($galerie_content_path)
     {
         $this->galerie_content_path = $galerie_content_path;
+
+        return $this;
+    }
+
+    public function getTableau(): ?Tableau
+    {
+        return $this->tableau;
+    }
+
+    public function setTableau(?Tableau $tableau): self
+    {
+        $this->tableau = $tableau;
+
+        return $this;
+    }
+
+    public function getOrdre(): ?int
+    {
+        return $this->ordre;
+    }
+
+    public function setOrdre(?int $ordre): self
+    {
+        $this->ordre = $ordre;
 
         return $this;
     }

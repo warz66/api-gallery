@@ -3,8 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Image;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @method Image|null find($id, $lockMode = null, $lockVersion = null)
@@ -17,6 +18,28 @@ class ImageRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Image::class);
+    }
+
+    public function getImagesByOrdreTableauAsc($galerieId) {
+        return new ArrayCollection($this->createQueryBuilder('i')
+                    ->where('i.galerie = :galerieId')
+                    ->addSelect('CASE WHEN i.ordre IS NULL THEN 1 ELSE 0 END AS HIDDEN ordre_is_null')
+                    ->setParameter('galerieId', $galerieId)
+                    ->addOrderBy('ordre_is_null', 'ASC')
+                    ->addOrderBy('i.ordre', 'ASC')
+                    ->getQuery()
+                    ->getResult());
+    }
+
+    public function getImagesByOrdreTableauDesc($galerieId) {
+        return new ArrayCollection($this->createQueryBuilder('i')
+                    ->where('i.galerie = :galerieId')
+                    ->addSelect('CASE WHEN i.ordre IS NULL THEN 1 ELSE 0 END AS HIDDEN ordre_is_null')
+                    ->setParameter('galerieId', $galerieId)
+                    ->addOrderBy('ordre_is_null', 'DESC')
+                    ->addOrderBy('i.ordre', 'DESC')
+                    ->getQuery()
+                    ->getResult());
     }
 
     public function findSameImage($id, $url) {

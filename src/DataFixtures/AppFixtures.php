@@ -58,6 +58,7 @@ class AppFixtures extends Fixture
             $orderBy = random_int(0,1);
 
             $galerie->setTitle($title)
+                    ->setParOrdre('OrdreTableauAsc')
                     ->setSlug($slug)
                     ->setCoverImage($coverImage)
                     ->setDescription($description)
