@@ -5,13 +5,13 @@ namespace App\Controller;
 use App\Entity\Image;
 use App\Entity\Galerie;
 use App\Form\GalerieType;
+use App\Service\ImagesOrderBy;
 use App\Repository\ImageRepository;
 use App\Repository\GalerieRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class AdminGalerieController extends AbstractController
@@ -88,7 +88,7 @@ class AdminGalerieController extends AbstractController
     /**
      * @Route("/admin/galerie/{id}/{page<\d+>?1}/edit", name="admin_galerie_edit")
      */
-    public function edit(Galerie $galerie, Request $request, EntityManagerInterface $manager, $page, PaginatorInterface $paginator, ImageRepository $repo)
+    public function edit(Galerie $galerie, Request $request, EntityManagerInterface $manager, $page, PaginatorInterface $paginator, ImageRepository $repo, ImagesOrderBy $imagesOrderBy)
     {   
 
         // si on affiche une galerie que partiellement avec une page de départ différente de 1 cela peut creer des effets indésirables
@@ -96,12 +96,9 @@ class AdminGalerieController extends AbstractController
             return $this->redirectToRoute('admin_galerie_edit', ['id' => $galerie->getId(), 'page' => '1']);    
         }
 
-        // on crée la pagination
         $nbImgPage = 30;
-        /*if ($galerie->getOrderBy()) { $order = 'ASC'; } else { $order = 'DESC'; }
-        $images = $galerie->getImagesOrderBy($order);
-        dump($images);*/
-        switch ($galerie->getParOrdre()) {
+
+        /*switch ($galerie->getParOrdre()) {
             case 'OrdreTableauAsc': 
                 $images = $repo->getImagesByOrdreTableauAsc($galerie->getId());
                 //dump($images);
@@ -114,7 +111,8 @@ class AdminGalerieController extends AbstractController
                 $images = $repo->getImagesByOrdreTableauAsc($galerie->getId());
                 //dump($images);
                 break;
-        }
+        }*/
+        $images = $imagesOrderBy->get($galerie, $repo);
 
         if ($request->isMethod('post')) { // si on ne voit pas qu'on rentre dans cette condition c a cause du redirect a la fin
             $data = $request->request->all();
@@ -295,8 +293,6 @@ class AdminGalerieController extends AbstractController
     {   
 
         $nbImgPage = 30;
-        /*if ($galerie->getOrderBy()) { $order = 'ASC'; } else { $order = 'DESC'; }
-        $images = $galerie->getImagesOrderBy($order);*/
         switch ($galerie->getParOrdre()) {
             case 'OrdreTableauAsc': 
                 $images = $repo->getImagesByOrdreTableauAsc($galerie->getId());

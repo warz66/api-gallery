@@ -55,7 +55,6 @@ class AppFixtures extends Fixture
             $slug = $slugify->slugify($title);
             $createdAt = $faker->dateTimeBetween('-6 months');
             $updatedAt = $createdAt;
-            $orderBy = random_int(0,1);
 
             $galerie->setTitle($title)
                     ->setParOrdre('OrdreTableauAsc')
@@ -64,7 +63,6 @@ class AppFixtures extends Fixture
                     ->setDescription($description)
                     ->setCreateAt($createdAt)
                     ->setUpdatedAt($updatedAt)
-                    ->setOrderBy($orderBy)
                     ->setStatut(true);
             
             for ($j = 1; $j <= mt_rand(100,150); $j++) {

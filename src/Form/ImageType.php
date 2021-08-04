@@ -8,7 +8,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class ImageType extends AbstractType
@@ -20,9 +20,9 @@ class ImageType extends AbstractType
             ->add('caption', TextareaType::class, [
                 'label' => false,
                 'required' => false,
-                'attr' => ['spellcheck' => 'false', 'maxlength' => '255', 'rows' => '2'],
+                'attr' => ['placeholder' => 'Description', 'spellcheck' => 'false', 'maxlength' => '255', 'rows' => '2'],
             ])
-            ->add('ordre', IntegerType::class, [
+            ->add('ordre', NumberType::class, [
                 'required' => false,
                 'label' => false,
                 'attr' => ['class' => 'config-img-input', 'placeholder' => 'Ordre'],

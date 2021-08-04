@@ -24,11 +24,6 @@ class TableauType extends AbstractType
                 'label' => false,
                 'attr' => ['class' => 'config-img-input', 'placeholder' => 'Technique'],
             ])
-            ->add('ordre', IntegerType::class, [
-                'required' => false,
-                'label' => false,
-                'attr' => ['class' => 'config-img-input', 'placeholder' => 'Ordre'],
-            ])
             ->add('year', IntegerType::class, [
                 'required' => false,
                 'label' => false,

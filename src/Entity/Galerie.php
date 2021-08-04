@@ -88,11 +88,6 @@ class Galerie
 
     /**
      * @ORM\Column(type="boolean")
-     */
-    private $order_by;
-
-    /**
-     * @ORM\Column(type="boolean")
      * @Groups({"read"})
      */
     private $statut;
@@ -158,18 +153,6 @@ class Galerie
     public function initCreateAt() {
         if(!isset($this->create_at)) {
             $this->create_at = new \DateTime('now');
-        }
-    }
-
-    /**
-     * Permet d'initiliser le order_by
-     * 
-     * @ORM\PrePersist
-     * 
-     */
-    public function initOrderBy() {
-        if(!isset($this->order_by)) {
-            $this->order_by = 1;
         }
     }
 
@@ -262,13 +245,6 @@ class Galerie
         return $this->images;
     }
 
-    public function getImagesOrderBy($order)
-    {
-        $criteria = Criteria::create()
-            ->orderBy(['id' => $order]);
-        return $this->getImages()->matching($criteria);
-    }
-
     public function addImage(Image $image): self
     {
         if (!$this->images->contains($image)) {
@@ -324,18 +300,6 @@ class Galerie
     public function setUpdatedAt(\DateTimeInterface $updated_at): self
     {
         $this->updated_at = $updated_at;
-
-        return $this;
-    }
-
-    public function getOrderBy(): ?bool
-    {
-        return $this->order_by;
-    }
-
-    public function setOrderBy(bool $order_by): self
-    {
-        $this->order_by = $order_by;
 
         return $this;
     }

@@ -53,7 +53,7 @@ class Image
     private $tableau;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="float", nullable=true)
      */
     private $ordre;
 
@@ -145,12 +145,12 @@ class Image
         return $this;
     }
 
-    public function getOrdre(): ?int
+    public function getOrdre(): ?float
     {
         return $this->ordre;
     }
 
-    public function setOrdre(?int $ordre): self
+    public function setOrdre(?float $ordre): self
     {
         $this->ordre = $ordre;
 
