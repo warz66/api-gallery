@@ -14,6 +14,7 @@
                     <th class="text-center align-middle">Image de couverture</th>
                     <th class="text-center align-middle">Titre de la galerie</th>
                     <th class="text-center align-middle">Description</th>
+                    <th class="text-center align-middle"></th>
                     <th class="text-center align-middle"><button class="btn btn-outline-primary btnEmptyTrash" title="Vider la corbeille" style="width: 44px;"><i class="fas fa-dumpster-fire"></i></button></th>
                     <th class="text-center align-middle"><a href="{{ path('admin_galerie_index') }}" class="btn btn-outline-primary" style="width: 44px" title="Retourner à l'index"><i class="fas fa-reply"></i></a></th>
                 </tr>
@@ -32,6 +33,7 @@
                     {% endif %}
                         <td onclick="document.location = '{{ path('admin_galerie_edit',{'id': galerie.id }) }}';" class="align-middle text-center">{{galerie.title}}</td>
                         <td onclick="document.location = '{{ path('admin_galerie_edit',{'id': galerie.id }) }}';" class="align-middle text-center">{{galerie.description}}</td>
+                        <td class="align-middle text-center"><a href="{{ path('admin_galerie_edit',{'id': galerie.id }) }}" class="btn btn-outline-primary" style="width: 44px" title="Editer la galerie"><i class="fas fa-edit"></i></a></td>
                         <td class="align-middle text-center">
                             <button data-id='{{ galerie.id }}' data-title='{{ galerie.title }}' class="btn btn-outline-primary btnDelete" title="Supprimer définitivement" style="width: 44px;"><i class="fas fa-fire-alt"></i></button>
                         </td>
@@ -60,11 +62,11 @@
                 buttons: {
                     annuler: {
                         label: 'Annuler',
-                        className: 'btn-danger',
+                        className: 'btn-secondary',
                     },
                     valider: {
                         label: 'Valider',
-                        className: 'btn-success',
+                        className: 'btn-primary',
                         callback: function(result){
                             if (result) {
                                 window.location = '/admin/galerie/'+id+'/delete';
@@ -83,11 +85,11 @@
                 buttons: {
                     annuler: {
                         label: 'Annuler',
-                        className: 'btn-danger',
+                        className: 'btn-secondary',
                     },
                     valider: {
                         label: 'Valider',
-                        className: 'btn-success',
+                        className: 'btn-primary',
                         callback: function(result){
                             if (result) {
                                 window.location = '/admin/galerie/'+id+'/restore';
@@ -105,11 +107,11 @@
                 buttons: {
                     annuler: {
                         label: 'Annuler',
-                        className: 'btn-danger',
+                        className: 'btn-secondary',
                     },
                     valider: {
                         label: 'Valider',
-                        className: 'btn-success',
+                        className: 'btn-primary',
                         callback: function(result){
                             if (result) {
                                 window.location = '/admin/galerie/trash/empty';

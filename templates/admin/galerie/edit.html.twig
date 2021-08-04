@@ -61,7 +61,6 @@
             </div>
         </div>
         {{form_row(form.up_to_page, {'id': 'upToPage'}) }}
-        {#<input id="upToPage" type="hidden">#}
     {{ form_end(form) }}
     <div class="page-load-status">
         <div class="loader-ellips infinite-scroll-request">
@@ -79,7 +78,6 @@
         <p class="infinite-scroll-error">Plus de pages à charger</p>
     </div>
     <a id="cRetour"><i class="fas fa-arrow-up"></i></a>
-    {#<input id="page" type="hidden" value="{{ page }}">#}
     <input id="pageMax" type="hidden" value="{{ pageMax }}">
     <input id="galerieId" type="hidden" value="{{ galerieId }}">   
 </div>

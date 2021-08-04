@@ -42,11 +42,11 @@ $('.statutCheckbox').click(function(e) {
             buttons: {
                 annuler: {
                     label: 'Annuler',
-                    className: 'btn-danger',
+                    className: 'btn-secondary',
                 },
                 valider: {
                     label: 'Valider',
-                    className: 'btn-success',
+                    className: 'btn-primary',
                     callback: function(result){
                         if (result) {
                             $.ajax({
