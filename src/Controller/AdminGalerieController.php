@@ -86,40 +86,26 @@ class AdminGalerieController extends AbstractController
 
 
     /**
-     * @Route("/admin/galerie/{id}/{page<\d+>?1}/edit", name="admin_galerie_edit")
+     * @Route("/admin/galerie/{id}/edit", name="admin_galerie_edit")
+     * 
      */
-    public function edit(Galerie $galerie, Request $request, EntityManagerInterface $manager, $page, PaginatorInterface $paginator, ImageRepository $repo, ImagesOrderBy $imagesOrderBy)
+    public function edit(Galerie $galerie, Request $request, EntityManagerInterface $manager, PaginatorInterface $paginator, ImageRepository $repo, ImagesOrderBy $imagesOrderBy)
     {   
-
-        // si on affiche une galerie que partiellement avec une page de départ différente de 1 cela peut creer des effets indésirables
-        if ($page>1) {
-            return $this->redirectToRoute('admin_galerie_edit', ['id' => $galerie->getId(), 'page' => '1']);    
-        }
 
         $nbImgPage = 30;
 
-        /*switch ($galerie->getParOrdre()) {
-            case 'OrdreTableauAsc': 
-                $images = $repo->getImagesByOrdreTableauAsc($galerie->getId());
-                //dump($images);
-                break;
-            case 'OrdreTableauDesc': 
-                $images = $repo->getImagesByOrdreTableauDesc($galerie->getId());
-                //dump($images);
-                break;
-            default:
-                $images = $repo->getImagesByOrdreTableauAsc($galerie->getId());
-                //dump($images);
-                break;
-        }*/
         $images = $imagesOrderBy->get($galerie, $repo);
 
-        if ($request->isMethod('post')) { // si on ne voit pas qu'on rentre dans cette condition c a cause du redirect a la fin
+        if ($request->isMethod('post')) {
+            if(strpos($request->headers->get('referer'), 'next')) {
+                return $this->redirectToRoute('admin_galerie_edit', ['id' => $galerie->getId()]);
+            }
             $data = $request->request->all();
-            $pagination = $paginator->paginate($images, $request->query->getInt('page',1), $nbImgPage * (int)$data["galerie"]["up_to_page"]);
-        } else {
-            $pagination = $paginator->paginate($images, $request->query->getInt('page',$page), $nbImgPage);
+            $nbImgPage = $nbImgPage * (int)$data["galerie"]["up_to_page"];
         }
+
+        $pagination = $paginator->paginate($images, $request->query->getInt('page',1), $nbImgPage);
+
         $form = $this->createForm(GalerieType::class, $galerie,[ "pagination" => $pagination ]);
         
         $form->handleRequest($request);
@@ -159,8 +145,6 @@ class AdminGalerieController extends AbstractController
             }
 
             $manager->flush();
-
-            //dd($pagination);
 
             if (empty($errorFile)) {
                 $this->addFlash('success', "La galerie <strong>{$galerie->getTitle()}</strong> a bien été modifiée !");
@@ -289,24 +273,13 @@ class AdminGalerieController extends AbstractController
      * 
      * @Route("/admin/galerie/{id}/{page<\d+>?1}/edit/next", name="admin_galerie_next")
      */
-    public function next(Galerie $galerie, Request $request, $page, PaginatorInterface $paginator, ImageRepository $repo)
+    public function next(Galerie $galerie, Request $request, $page, PaginatorInterface $paginator, ImageRepository $repo, ImagesOrderBy $imagesOrderBy)
     {   
 
         $nbImgPage = 30;
-        switch ($galerie->getParOrdre()) {
-            case 'OrdreTableauAsc': 
-                $images = $repo->getImagesByOrdreTableauAsc($galerie->getId());
-                dump($images);
-                break;
-            case 'OrdreTableauDesc': 
-                $images = $repo->getImagesByOrdreTableauDesc($galerie->getId());
-                dump($images);
-                break;
-            default:
-                $images = $repo->getImagesByOrdreTableauAsc($galerie->getId());
-                dump($images);
-                break;
-        }
+
+        $images = $imagesOrderBy->get($galerie, $repo);
+
         $pagination = $paginator->paginate($images, $request->query->getInt('page',$page), $nbImgPage);
 
         $form = $this->createForm(GalerieType::class, $galerie,[ "pagination" => $pagination ]);

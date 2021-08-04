@@ -49,14 +49,14 @@ $grid.imagesLoaded( function() {
     $grid.masonry( 'appended', $items );
 });
 
+/*var page = $('#page').val();*/
 var pageMax = $('#pageMax').val();
 var galerieId = $('#galerieId').val();
 
 function getPenPath() {
-    if (this.loadCount == 0) {this.loadCount = 1;}
-    if (this.loadCount < pageMax) {
-        var page = ( this.loadCount + 1 );
-        return '/admin/galerie/'+galerieId+'/'+page+'/edit/next' 
+    if (this.pageIndex < pageMax) {
+        var page = ( parseInt(this.pageIndex) + 1 );
+        return `/admin/galerie/${galerieId}/${page}/edit/next`
     }
 }
 

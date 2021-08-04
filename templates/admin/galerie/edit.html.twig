@@ -19,7 +19,7 @@
         <h1 class="text-center m-0" id="titreGalerie">Galerie {{form.vars.value.title}}</h1>
     </div>
     <hr class="mb-5 mt-5">
-    {{ form_start(form, {'action': path('admin_galerie_edit',{'id':galerieId, 'page':1}) }) }}
+    {{ form_start(form, {'action': path('admin_galerie_edit', {'id':galerieId} ) }) }}
         <div class="row">
             <div class="col-lg-6">
                 {{form_row(form.title)}}
@@ -79,6 +79,7 @@
         <p class="infinite-scroll-error">Plus de pages à charger</p>
     </div>
     <a id="cRetour"><i class="fas fa-arrow-up"></i></a>
+    {#<input id="page" type="hidden" value="{{ page }}">#}
     <input id="pageMax" type="hidden" value="{{ pageMax }}">
     <input id="galerieId" type="hidden" value="{{ galerieId }}">   
 </div>
