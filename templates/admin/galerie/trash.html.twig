@@ -22,16 +22,16 @@
                 {% for galerie in galeries %}
                     <tr data-id='{{ galerie.id }}'>
                     {% if 'picsum' in galerie.coverImage %} {# à virer une fois en prod #}
-                        <td onclick="document.location = '{{ path('admin_galerie_edit',{'id': galerie.id }) }}?trash=true';" class="text-center align-middle">
+                        <td onclick="document.location = '{{ path('admin_galerie_edit',{'id': galerie.id }) }}';" class="text-center align-middle">
                             <img style="max-width:300px;height:auto;" src="{{galerie.coverImage}}" alt="">
                         </td>
                     {% else %}
-                        <td onclick="document.location = '{{ path('admin_galerie_edit',{'id': galerie.id }) }}?trash=true';" class="text-center align-middle">
+                        <td onclick="document.location = '{{ path('admin_galerie_edit',{'id': galerie.id }) }}';" class="text-center align-middle">
                             <img src="{{ galerie.coverImage | imagine_filter('galerie_cover_index_thumb')}}" alt="">
                         </td>
                     {% endif %}
-                        <td onclick="document.location = '{{ path('admin_galerie_edit',{'id': galerie.id }) }}?trash=true';" class="align-middle text-center">{{galerie.title}}</td>
-                        <td onclick="document.location = '{{ path('admin_galerie_edit',{'id': galerie.id }) }}?trash=true';" class="align-middle text-center">{{galerie.description}}</td>
+                        <td onclick="document.location = '{{ path('admin_galerie_edit',{'id': galerie.id }) }}';" class="align-middle text-center">{{galerie.title}}</td>
+                        <td onclick="document.location = '{{ path('admin_galerie_edit',{'id': galerie.id }) }}';" class="align-middle text-center">{{galerie.description}}</td>
                         <td class="align-middle text-center">
                             <button data-id='{{ galerie.id }}' data-title='{{ galerie.title }}' class="btn btn-outline-primary btnDelete" title="Supprimer définitivement" style="width: 44px;"><i class="fas fa-fire-alt"></i></button>
                         </td>

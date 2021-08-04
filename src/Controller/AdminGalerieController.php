@@ -157,7 +157,7 @@ class AdminGalerieController extends AbstractController
         }
 
         return $this->render('admin/galerie/edit.html.twig', [
-            'trash' => ($request->get('trash')) ? true : false,
+            'trash' => ($galerie->getTrash()) ? true : false,
             'form' => $form->createView(), // attention si pas de redirection form plus le meme
             'galerieId' => $galerie->getId(),
             'pageMax' => ceil(count($galerie->getImages()->getValues())/$nbImgPage),
