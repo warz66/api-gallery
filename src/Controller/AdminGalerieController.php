@@ -91,7 +91,7 @@ class AdminGalerieController extends AbstractController
      */
     public function edit(Galerie $galerie, Request $request, EntityManagerInterface $manager, PaginatorInterface $paginator, ImageRepository $repo, ImagesOrderBy $imagesOrderBy)
     {   
-
+        //dd($galerie->getUpToPage());
         $nbImgPage = 30;
 
         $images = $imagesOrderBy->get($galerie, $repo);
@@ -116,9 +116,9 @@ class AdminGalerieController extends AbstractController
             if(isset($galerieRequest['images'])){
                 $imageRequest=$galerieRequest['images'];
                 foreach($imageRequest as $image) {
-                    $captionStatus=explode("-",$image['captionStatus'],3);
-                    if($captionStatus[0] === '1') {
-                        $imageOrigin = $repo->findOneBy(['id' => $captionStatus[1]]);
+                    $imgStatutRemove=explode("-",$image['statut_remove'],3);
+                    if($imgStatutRemove[0] === '1') {
+                        $imageOrigin = $repo->findOneBy(['id' => $imgStatutRemove[1]]);
                         $manager->remove($imageOrigin);
                     }
                 }
@@ -283,6 +283,7 @@ class AdminGalerieController extends AbstractController
         $pagination = $paginator->paginate($images, $request->query->getInt('page',$page), $nbImgPage);
 
         $form = $this->createForm(GalerieType::class, $galerie,[ "pagination" => $pagination ]);
+                        
 
         return $this->render('admin/galerie/edit.html.twig', [
             'form' => $form->createView(),

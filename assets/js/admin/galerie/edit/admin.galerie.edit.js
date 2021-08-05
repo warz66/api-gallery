@@ -1,5 +1,3 @@
-// gestion msg des dépendances de la publication
-
 $('#galerie_statut').click(function(e){
     var statut = $(this).prop('checked');
     if (statut === false) {
@@ -10,11 +8,11 @@ $('#galerie_statut').click(function(e){
             buttons: {
                 annuler: {
                     label: 'Annuler',
-                    className: 'btn-danger',
+                    className: 'btn-secondary',
                 },
                 valider: {
                     label: 'Valider',
-                    className: 'btn-success',
+                    className: 'btn-primary',
                     callback: function(result){
                         if (result) {
                             $('#galerie_statut').prop('checked',false);  
@@ -145,7 +143,7 @@ function handleStatutImg() {
     $('i[data-action="delete"]').click(function() {
         const target = this.dataset.target;
         $(this).toggleClass("far fas").toggleClass("fa-trash-alt fa-undo");
-        $(target).children().find('.captionStatus').toggleClass("delete");
+        $(target).children().find('.imgStatutRemove').toggleClass("remove");
         if ($(this).hasClass('fa-trash-alt')) {
             $(target+' *').css({'opacity':'1','transition':'opacity 0.5s'});
         } else {
@@ -159,8 +157,8 @@ handleStatutImg();
 function deleteImgDomBeforeSubmit() {
     $("form[name='galerie']").submit(function() {
         $('#cancel').prop('disabled', true);
-        $('.captionStatus').each(function(){
-            if($(this).hasClass('delete')) {
+        $('.imgStatutRemove').each(function(){
+            if($(this).hasClass('remove')) {
                 $(this).val($(this).val().replace(/^./, '1'));
             }
         });

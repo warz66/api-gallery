@@ -30,8 +30,7 @@ class ImageType extends AbstractType
             ->add('tableau', TableauType::class, [
                 'label' => false,
             ])
-            ->add('captionStatus', HiddenType::class, [
-                'property_path' => 'caption',
+            ->add('statut_remove', HiddenType::class, [
                 'mapped' => false,
             ])
         ;

@@ -102,8 +102,6 @@ class Galerie
      */
     private $par_ordre;
 
-    private $up_to_page = 1;
-
     /**
      * Permet de contraindre la validation si une image de couverture n'a pas été ajouté 
      * @Assert\Callback
@@ -340,15 +338,4 @@ class Galerie
         return $this;
     }
 
-    public function getUpToPage(): ?int
-    {
-        return $this->up_to_page;
-    }
-
-    public function setUpToPage(?int $up_to_page): self
-    {
-        $this->up_to_page = $up_to_page;
-
-        return $this;
-    }
 }

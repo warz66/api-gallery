@@ -34,9 +34,12 @@ class GalerieType extends AbstractType
                 'allow_delete' => false, // info : https://symfony.com/doc/current/reference/forms/types/collection.html#allow-delete
                 'attr' => ['class' => 'grid are-images-unloaded'],
                 'label' => false,
-                'allow_extra_fields' => true,
+                //'allow_extra_fields' => true,
             ])
-            ->add('up_to_page', HiddenType::class)
+            ->add('up_to_page', HiddenType::class, [
+                'mapped' => false,
+                'attr' => ['value' => '1']
+            ]);
         ;
     }
 

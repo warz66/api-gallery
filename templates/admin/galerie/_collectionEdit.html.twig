@@ -28,7 +28,7 @@
                 {{ form_row(form.caption , {'value' : form.vars.value.caption, 'spellcheck' : 'false', 'attr' : {'class' : 'captionImg'}}) }}
                 {{ form_row(form.tableau.technique) }}
                 {{ form_row(form.tableau, { 'attr': {'class' : 'd-flex'} }) }}
-                {{ form_row(form.captionStatus, {'attr': {'class' : 'captionStatus', 'value' : '0-' ~ form.vars.value.id ~ '-' ~ form.vars.value.caption } })}}
+                {{ form_row(form.statut_remove, {'attr': {'class' : 'imgStatutRemove', 'value' : '0-' ~ form.vars.value.id } })}}
             </div>
         </div>
 {% endblock %}

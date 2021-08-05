@@ -1,4 +1,3 @@
-
 $('.btnTrash').click(function(e) {
     var id = $(this).data('id');
     bootbox.dialog({
@@ -7,11 +6,11 @@ $('.btnTrash').click(function(e) {
         buttons: {
             annuler: {
                 label: 'Annuler',
-                className: 'btn-danger',
+                className: 'btn-secondary',
             },
             valider: {
                 label: 'Valider',
-                className: 'btn-success',
+                className: 'btn-primary',
                 callback: function(result){
                     if (result) {
                         window.location = '/admin/galerie/'+id+'/trash';
