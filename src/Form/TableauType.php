@@ -27,26 +27,17 @@ class TableauType extends AbstractType
             ->add('year', IntegerType::class, [
                 'required' => false,
                 'label' => false,
-                'row_attr' => [
-                    'class' => 'w-100'
-                ],
-                'attr' => ['class' => 'config-img-input', 'placeholder' => 'Année', 'min' => '1900', 'max' => '2000'],
+                'attr' => ['class' => 'config-img-input', 'placeholder' => 'Année'],
             ])
             ->add('width', IntegerType::class, [
                 'required' => false,
                 'label' => false,
-                'row_attr' => [
-                    'class' => 'w-100'
-                ],
-                'attr' => ['class' => 'config-img-input', 'placeholder' => 'Largeur', 'min' => '1', 'max' => '1000'],
+                'attr' => ['class' => 'config-img-input', 'placeholder' => 'Largeur'],
             ])
             ->add('height', IntegerType::class, [
                 'required' => false,
                 'label' => false,
-                'row_attr' => [
-                    'class' => 'w-100'
-                ],
-                'attr' => ['class' => 'config-img-input', 'placeholder' => 'Hauteur', 'min' => '1', 'max' => '1000'],
+                'attr' => ['class' => 'config-img-input', 'placeholder' => 'Hauteur'],
             ])
         ;
     }

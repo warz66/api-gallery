@@ -7,6 +7,7 @@ use App\Entity\Role;
 use App\Entity\User;
 use App\Entity\Image;
 use App\Entity\Galerie;
+use App\Entity\Tableau;
 use Cocur\Slugify\Slugify;
 use Bluemmb\Faker\PicsumPhotosProvider;
 use Doctrine\Persistence\ObjectManager;
@@ -46,6 +47,8 @@ class AppFixtures extends Fixture
                   ->setRole($adminRole);
         $manager->persist($adminUser);
 
+        $techniques = ['Aquarelle', 'Acrylique', 'Huile', 'Gouache', 'Pastel'];
+
         for($i = 1;$i <= 10; $i++) {
             $galerie = new Galerie();
             
@@ -67,9 +70,21 @@ class AppFixtures extends Fixture
             
             for ($j = 1; $j <= mt_rand(100,150); $j++) {
                 $image= new Image();
+                $tableau= new Tableau();
+
+                $width = mt_rand(300,1000);
+                $height = mt_rand(200,700);
+
+                $tableau->setTechnique($techniques[array_rand($techniques)])
+                        ->setTitle($faker->word(mt_rand(1,5))) // corriger ici !
+                        ->setYear(mt_rand(1940,2000))
+                        ->setWidth($width)
+                        ->setHeight($height);
                 
-                $image->setUrl($faker->imageUrl(mt_rand(200,1000),mt_rand(200,1000),mt_rand(1,1000)))
-                      ->setCaption($faker->sentence())
+                $image->setUrl($faker->imageUrl($width, $height, mt_rand(1,1000)))
+                      ->setCaption($faker->paragraph(2))
+                      ->setOrdre($j)
+                      ->setTableau($tableau)
                       ->setGalerie($galerie);
                       
                 $manager->persist($image);      

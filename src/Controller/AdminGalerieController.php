@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Image;
 use App\Entity\Galerie;
+use App\Entity\Tableau;
 use App\Form\GalerieType;
 use App\Service\ImagesOrderBy;
 use App\Repository\ImageRepository;
@@ -93,6 +94,7 @@ class AdminGalerieController extends AbstractController
     {   
 
         $nbImgPage = 30;
+        $nbImgGalerie = count($galerie->getImages()->getValues());
 
         $images = $imagesOrderBy->get($galerie, $repo);
 
@@ -137,6 +139,7 @@ class AdminGalerieController extends AbstractController
                             $img->setGalerie_content_path($this->getParameter('galerie_content_path'));
                             $img->setUrl($file);
                             $img->setGalerie($galerie);
+                            $img->setOrdre($nbImgGalerie + $i +1);
                             $manager->persist($img);
                         } else {
                             unlink($_FILES['uploadFile']['tmp_name'][$i]); // a tester
@@ -156,18 +159,18 @@ class AdminGalerieController extends AbstractController
 
                 return $this->redirectToRoute('admin_galerie_edit', ['id' => $galerie->getId()]); 
 
-            } else { // essayer de rajouter au form la value uptopage
+            } else { 
                 $this->addFlash('danger', "Attention, votre enregistrement contient des erreurs veuillez les corriger avant de valider.");
             }  
         } 
-
+        
         return $this->render('admin/galerie/edit.html.twig', [
             'nbImg' => count($pagination->getItems()),
             'nbImgPage' => $nbImgPage, 
             'trash' => ($galerie->getTrash()) ? true : false,
             'form' => $form->createView(), // attention si pas de redirection form plus le meme
             'galerieId' => $galerie->getId(),
-            'pageMax' => ceil(count($galerie->getImages()->getValues())/$nbImgPage),
+            'pageMax' => ceil($nbImgGalerie/$nbImgPage),
         ]);
     }
 

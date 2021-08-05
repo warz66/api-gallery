@@ -27,8 +27,9 @@ $('#galerie_statut').click(function(e){
 var $grid = $('.grid').masonry({
     itemSelector: 'none',
     columnWidth: '.grid-item',
-    gutter: 15,
+    gutter: 10,
     percentPosition: true,
+    //horizontalOrder: true,
     /*transitionDuration: 0,*/
     /*stagger: 50,*/
     // nicer reveal transition
