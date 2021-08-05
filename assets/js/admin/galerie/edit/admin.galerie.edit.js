@@ -47,13 +47,16 @@ $grid.imagesLoaded( function() {
     $grid.masonry( 'appended', $items );
 });
 
-/*var page = $('#page').val();*/
+var nbImg = $('#nbImg').val();
+var nbImgPage = $('#nbImgPage').val()
 var pageMax = $('#pageMax').val();
 var galerieId = $('#galerieId').val();
+var indexPageGalerie = Math.ceil(nbImg/nbImgPage); 
+console.log(indexPageGalerie);
 
 function getPenPath() {
     if (this.pageIndex < pageMax) {
-        var page = ( parseInt(this.pageIndex) + 1 );
+        var page = ( this.pageIndex + 1 );
         return `/admin/galerie/${galerieId}/${page}/edit/next`
     }
 }
@@ -67,12 +70,14 @@ if (pageMax>1) {
         status: '.page-load-status',
         history: false,
         onInit: function() {
+            this.pageIndex = indexPageGalerie;
+            $('#upToPage').val(this.pageIndex);
             this.on('append', function() {
                 $('i[data-action="delete"]').off('click');
                 handleStatutImg();
                 $('i[data-action="config"]').off('click');
                 openImageAttrConfig();
-                $('#upToPage').val(parseInt($('#upToPage').val()) + 1 );
+                $('#upToPage').val(this.pageIndex);
             });
         }
     });
@@ -231,5 +236,20 @@ $(document).ready(function() {
 // debug le resize de la galerie lorsque la sidebar apparait disparait
 $('#sidebarCollapse').on('click', function () {
     setTimeout(function(){ $grid.masonry('layout'); }, 500);
+});
+
+/*$("form[name='galerie'] input").on("invalid", function(event) {
+    event.preventDefault();
+    console.log(event.type);
+});*/
+
+$(document).ready(function() {
+    $('.config-img').each(function(e) {
+        if($(this).find('.invalid-feedback').length !== 0) {
+            $(this).parent().addClass('item-config-img-open-error'); // error design à rajouter
+            $(this).removeClass('config-img-close');
+        }
+    });
+    msnry.layout();
 });
     

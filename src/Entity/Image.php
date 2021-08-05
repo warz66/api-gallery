@@ -49,6 +49,7 @@ class Image
 
     /**
      * @ORM\OneToOne(targetEntity=Tableau::class, cascade={"persist", "remove"})
+     * @Groups({"read"})
      */
     private $tableau;
 

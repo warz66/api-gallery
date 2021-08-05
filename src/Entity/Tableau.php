@@ -2,11 +2,19 @@
 
 namespace App\Entity;
 
-use App\Repository\TableauRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\TableauRepository;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=TableauRepository::class)
+ * @ApiResource(
+ *     normalizationContext={"groups"={"read"}},
+ *     denormalizationContext={"groups"={"write"}},
+ *     collectionOperations={"get"},
+ *     itemOperations={"get"}
+ * ) 
  */
 class Tableau
 {
@@ -19,26 +27,31 @@ class Tableau
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"read"})
      */
     private $title;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Groups({"read"})
      */
     private $year;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Groups({"read"})
      */
     private $width;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Groups({"read"})
      */
     private $height;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"read"})
      */
     private $technique;
 

@@ -91,7 +91,7 @@ class AdminGalerieController extends AbstractController
      */
     public function edit(Galerie $galerie, Request $request, EntityManagerInterface $manager, PaginatorInterface $paginator, ImageRepository $repo, ImagesOrderBy $imagesOrderBy)
     {   
-        //dd($galerie->getUpToPage());
+
         $nbImgPage = 30;
 
         $images = $imagesOrderBy->get($galerie, $repo);
@@ -101,62 +101,69 @@ class AdminGalerieController extends AbstractController
                 return $this->redirectToRoute('admin_galerie_edit', ['id' => $galerie->getId()]);
             }
             $data = $request->request->all();
-            $nbImgPage = $nbImgPage * (int)$data["galerie"]["up_to_page"];
+            $pagination = $paginator->paginate($images, $request->query->getInt('page',1), $nbImgPage * (int)$data["galerie"]["up_to_page"]); // lors du retour aprés echec de validation uptopage non rafraichit
+        } else {
+            $pagination = $paginator->paginate($images, $request->query->getInt('page',1), $nbImgPage);
         }
-
-        $pagination = $paginator->paginate($images, $request->query->getInt('page',1), $nbImgPage);
 
         $form = $this->createForm(GalerieType::class, $galerie,[ "pagination" => $pagination ]);
         
         $form->handleRequest($request);
 
-        if ( $form->isSubmitted() && $form->isValid() ) {
+        if ($form->isSubmitted()) {
+            if($form->isValid()) {
 
-            $galerieRequest=$request->request->get('galerie');
-            if(isset($galerieRequest['images'])){
-                $imageRequest=$galerieRequest['images'];
-                foreach($imageRequest as $image) {
-                    $imgStatutRemove=explode("-",$image['statut_remove'],3);
-                    if($imgStatutRemove[0] === '1') {
-                        $imageOrigin = $repo->findOneBy(['id' => $imgStatutRemove[1]]);
-                        $manager->remove($imageOrigin);
+                $galerieRequest=$request->request->get('galerie');
+                if(isset($galerieRequest['images'])){
+                    $imageRequest=$galerieRequest['images'];
+                    foreach($imageRequest as $image) {
+                        $imgStatutRemove=explode("-",$image['statut_remove'],3);
+                        if($imgStatutRemove[0] === '1') {
+                            $imageOrigin = $repo->findOneBy(['id' => $imgStatutRemove[1]]);
+                            $manager->remove($imageOrigin);
+                        }
                     }
                 }
-            }
 
-            //on enregistre sur le server les images aprés le post persist
-            if(!empty($_FILES['uploadFile']['tmp_name'][0])) {
-                $errorFile='';
-                for($i = 0; $i < count($_FILES['uploadFile']['tmp_name']); ++$i) {
-                    if(is_uploaded_file($_FILES['uploadFile']['tmp_name'][$i]) && $_FILES['uploadFile']['size'][$i] < 1000000 && $_FILES['uploadFile']['error'][$i] === 0 && ($_FILES['uploadFile']['type'][$i] === 'image/jpeg' || $_FILES['uploadFile']['type'][$i] === 'image/png')) {
-                        $source_path = $_FILES['uploadFile']['tmp_name'][$i];
-                        $file = uniqid() . '_' . $_FILES['uploadFile']['name'][$i];
-                        $img = new Image;
-                        $img->setSource_path($source_path);
-                        $img->setGalerie_content_path($this->getParameter('galerie_content_path'));
-                        $img->setUrl($file);
-                        $img->setGalerie($galerie);
-                        $manager->persist($img);
-                    } else {
-                        unlink($_FILES['uploadFile']['tmp_name'][$i]); // a tester
-                        $errorFile = $errorFile . $_FILES['uploadFile']['name'][$i].', ';
+                //on enregistre sur le server les images aprés le post persist
+                if(!empty($_FILES['uploadFile']['tmp_name'][0])) {
+                    $errorFile='';
+                    for($i = 0; $i < count($_FILES['uploadFile']['tmp_name']); ++$i) {
+                        if(is_uploaded_file($_FILES['uploadFile']['tmp_name'][$i]) && $_FILES['uploadFile']['size'][$i] < 1000000 && $_FILES['uploadFile']['error'][$i] === 0 && ($_FILES['uploadFile']['type'][$i] === 'image/jpeg' || $_FILES['uploadFile']['type'][$i] === 'image/png')) {
+                            $source_path = $_FILES['uploadFile']['tmp_name'][$i];
+                            $file = uniqid() . '_' . $_FILES['uploadFile']['name'][$i];
+                            $img = new Image;
+                            $img->setSource_path($source_path);
+                            $img->setGalerie_content_path($this->getParameter('galerie_content_path'));
+                            $img->setUrl($file);
+                            $img->setGalerie($galerie);
+                            $manager->persist($img);
+                        } else {
+                            unlink($_FILES['uploadFile']['tmp_name'][$i]); // a tester
+                            $errorFile = $errorFile . $_FILES['uploadFile']['name'][$i].', ';
+                        }
                     }
                 }
-            }
 
-            $manager->flush();
+                $manager->flush();
 
-            if (empty($errorFile)) {
-                $this->addFlash('success', "La galerie <strong>{$galerie->getTitle()}</strong> a bien été modifiée !");
-            } else {
-                $this->addFlash('warning', "La galerie <strong>{$galerie->getTitle()}</strong> a bien été modifiée !<br>
-                Cependant la ou les images <strong>{$errorFile}</strong> n'ont pas pu être enregistrées");
-            }
+                if (empty($errorFile)) {
+                    $this->addFlash('success', "La galerie <strong>{$galerie->getTitle()}</strong> a bien été modifiée !");
+                } else {
+                    $this->addFlash('warning', "La galerie <strong>{$galerie->getTitle()}</strong> a bien été modifiée !<br>
+                    Cependant la ou les images <strong>{$errorFile}</strong> n'ont pas pu être enregistrées");
+                }
 
-            return $this->redirectToRoute('admin_galerie_edit', ['id' => $galerie->getId()]);                                              
-        }
+                return $this->redirectToRoute('admin_galerie_edit', ['id' => $galerie->getId()]); 
+
+            } else { // essayer de rajouter au form la value uptopage
+                $this->addFlash('danger', "Attention, votre enregistrement contient des erreurs veuillez les corriger avant de valider.");
+            }  
+        } 
 
         return $this->render('admin/galerie/edit.html.twig', [
+            'nbImg' => count($pagination->getItems()),
+            'nbImgPage' => $nbImgPage, 
             'trash' => ($galerie->getTrash()) ? true : false,
             'form' => $form->createView(), // attention si pas de redirection form plus le meme
             'galerieId' => $galerie->getId(),
@@ -286,6 +293,8 @@ class AdminGalerieController extends AbstractController
                         
 
         return $this->render('admin/galerie/edit.html.twig', [
+            'nbImg' => count($pagination->getItems()),
+            'nbImgPage' => $nbImgPage, 
             'form' => $form->createView(),
             'galerieId' => $galerie->getId(),
             'pageMax' => ceil(count($galerie->getImages()->getValues())/$nbImgPage),

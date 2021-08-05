@@ -183,6 +183,11 @@ a#cRetour.cVisible{
     box-shadow: 0 0 5px #593196;
 }
 
+.item-config-img-open-error {
+    border: 2px solid #fc3939;
+    box-shadow: 0 0 5px 1px #fc3939;
+}
+
 @media (max-width: 1200px) {
     .grid-item {
     width: calc((100% - 15px)/2); /* a test le -15, normalement -20 ??? */

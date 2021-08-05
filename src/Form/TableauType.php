@@ -17,27 +17,36 @@ class TableauType extends AbstractType
             ->add('title', TextType::class, [
                 'required' => false,
                 'label' => false, 
-                'attr' => ['class' => 'config-img-input', 'placeholder' => 'Titre'],
+                'attr' => ['class' => 'config-img-input', 'placeholder' => 'Titre', 'maxlength' => '255'],
             ])
             ->add('technique', TextType::class, [
                 'required' => false,
                 'label' => false,
-                'attr' => ['class' => 'config-img-input', 'placeholder' => 'Technique'],
+                'attr' => ['class' => 'config-img-input', 'placeholder' => 'Technique', 'maxlength' => '255'],
             ])
             ->add('year', IntegerType::class, [
                 'required' => false,
                 'label' => false,
-                'attr' => ['class' => 'config-img-input', 'placeholder' => 'Année'],
+                'row_attr' => [
+                    'class' => 'w-100'
+                ],
+                'attr' => ['class' => 'config-img-input', 'placeholder' => 'Année', 'min' => '1900', 'max' => '2000'],
             ])
             ->add('width', IntegerType::class, [
                 'required' => false,
                 'label' => false,
-                'attr' => ['class' => 'config-img-input', 'placeholder' => 'Largeur'],
+                'row_attr' => [
+                    'class' => 'w-100'
+                ],
+                'attr' => ['class' => 'config-img-input', 'placeholder' => 'Largeur', 'min' => '1', 'max' => '1000'],
             ])
             ->add('height', IntegerType::class, [
                 'required' => false,
                 'label' => false,
-                'attr' => ['class' => 'config-img-input', 'placeholder' => 'Hauteur'],
+                'row_attr' => [
+                    'class' => 'w-100'
+                ],
+                'attr' => ['class' => 'config-img-input', 'placeholder' => 'Hauteur', 'min' => '1', 'max' => '1000'],
             ])
         ;
     }
