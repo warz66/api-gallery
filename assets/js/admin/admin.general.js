@@ -1,8 +1,20 @@
 // menu sidebar
 $(document).ready(function () {
-    $('#sidebarCollapse').on('click', function () {
+
+    $('#sidebarCollapse').on('click', function() {
         $('#sidebar').toggleClass('active');
     });
+
+    if ($(window).width() < 960) {
+        $('#sidebar').toggleClass('active');
+    }
+
+    $(window).resize(function() {
+        if($(window).width() < 960) {
+            $('#sidebar').removeClass('active');
+        }
+    })
+
 });
 
 /***** function publication edit new *****/
