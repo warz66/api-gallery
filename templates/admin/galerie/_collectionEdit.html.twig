@@ -8,7 +8,7 @@
 
 {% block _galerie_images_entry_widget %}
     {% if form.vars.name == 0 %}<div class="grid-sizer"></div>{% endif %}
-    {% if form.vars.value.tableau.width is not null %}
+    {% if form.vars.value.tableau.width is defined %}
         {% if form.vars.value.tableau.width in range(600, 799) %}
             <div class="grid-item grid-item--width2" id="block_{{id}}">
         {% elseif form.vars.value.tableau.width >= 800 %}

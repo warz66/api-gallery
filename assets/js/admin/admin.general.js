@@ -6,7 +6,7 @@ $(document).ready(function () {
     });
 
     if ($(window).width() < 960) {
-        $('#sidebar').toggleClass('active');
+        $('#sidebarCollapse').click();
     }
 
     $(window).resize(function() {

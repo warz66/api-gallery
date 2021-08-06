@@ -53,7 +53,6 @@ var nbImgPage = $('#nbImgPage').val()
 var pageMax = $('#pageMax').val();
 var galerieId = $('#galerieId').val();
 var indexPageGalerie = Math.ceil(nbImg/nbImgPage); 
-console.log(indexPageGalerie);
 
 function getPenPath() {
     if (this.pageIndex < pageMax) {
