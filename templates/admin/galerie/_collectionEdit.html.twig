@@ -7,7 +7,18 @@
 {% endblock %}
 
 {% block _galerie_images_entry_widget %}
-    <div class="grid-item" id="block_{{id}}">
+    {% if form.vars.name == 0 %}<div class="grid-sizer"></div>{% endif %}
+    {% if form.vars.value.tableau.width is not null %}
+        {% if form.vars.value.tableau.width in range(600, 799) %}
+            <div class="grid-item grid-item--width2" id="block_{{id}}">
+        {% elseif form.vars.value.tableau.width >= 800 %}
+            <div class="grid-item grid-item--width3" id="block_{{id}}">
+        {% else %}
+            <div class="grid-item" id="block_{{id}}">   
+        {% endif %}
+    {% else %}
+        <div class="grid-item" id="block_{{id}}">
+    {% endif %}
         <div>
             <i data-action="config" data-target="#block_{{id}}" class="fas fa-cog"></i>
             <i data-action="delete" data-target="#block_{{id}}" class="far fa-trash-alt"></i>

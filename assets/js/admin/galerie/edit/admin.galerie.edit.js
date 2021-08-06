@@ -25,9 +25,9 @@ $('#galerie_statut').click(function(e){
 })
 
 var $grid = $('.grid').masonry({
+    columnWidth: '.grid-sizer',
     itemSelector: 'none',
-    columnWidth: '.grid-item',
-    gutter: 10,
+    //gutter: 10,
     percentPosition: true,
     //horizontalOrder: true,
     /*transitionDuration: 0,*/
