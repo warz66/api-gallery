@@ -3,19 +3,33 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Core\Annotation\ApiFilter;
+use App\Controller\UpdateImagesController;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ImageRepository")
  * @ORM\HasLifecycleCallbacks
  * @ApiResource(
- *     normalizationContext={"groups"={"read"}},
- *     denormalizationContext={"groups"={"write"}},
- *     collectionOperations={"get"},
- *     itemOperations={"get"}
+ *     normalizationContext={"groups"={"images_read"}},
+ *     collectionOperations={"images"={
+ *      "method"="get", 
+ *      "path"="/images", 
+ *      "controller"=App\Controller\UpdateImagesController::class, 
+ *      "openapi_context"={
+ *          "summary"="qsdfgqsdfsqdf",
+ *          "description"="sdfqgqdsfgsdfg"
+ *      },
+ *     }
+ *    },
+ *     itemOperations={"GET"}
  * )
+ * @ApiFilter(SearchFilter::class, properties={"galerie.slug"})
+ * @ApiFilter(OrderFilter::class, properties={"ordre"})
  */
 class Image
 {
@@ -28,15 +42,26 @@ class Image
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"read"})
+     * @Groups({"galeries_read"})
+     * @Groups({"images_read"})
      */
     private $caption;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"read"})
+     * @Groups({"galeries_read"})
      */
     private $url;
+
+    /**
+     * @Groups({"images_read"})
+     */
+    private $pathUrl;
+
+    /**
+     * @Groups({"images_read"})
+     */
+    private $pathUrlCache;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Galerie", inversedBy="images")
@@ -44,17 +69,20 @@ class Image
     private $galerie;
 
     private $source_path;
-
+    
     private $galerie_content_path;
 
     /**
      * @ORM\OneToOne(targetEntity=Tableau::class, cascade={"persist", "remove"})
-     * @Groups({"read"})
+     * @Groups({"galeries_read"})
+     * @Groups({"images_read"})
      */
     private $tableau;
 
     /**
      * @ORM\Column(type="float", nullable=true)
+     * @Groups({"galeries_read"})
+     * @Groups({"images_read"})
      */
     private $ordre;
 
@@ -154,6 +182,47 @@ class Image
     public function setOrdre(?float $ordre): self
     {
         $this->ordre = $ordre;
+
+        return $this;
+    }
+    
+
+    /**
+     * Get the value of pathUrl
+     */ 
+    public function getPathUrl()
+    {
+        return $this->pathUrl;
+    }
+
+    /**
+     * Set the value of pathUrl
+     *
+     * @return  self
+     */ 
+    public function setPathUrl($pathUrl)
+    {
+        $this->pathUrl = $pathUrl;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of pathUrlCache
+     */ 
+    public function getPathUrlCache()
+    {
+        return $this->pathUrlCache;
+    }
+
+    /**
+     * Set the value of pathUrlCache
+     *
+     * @return  self
+     */ 
+    public function setPathUrlCache($pathUrlCache)
+    {
+        $this->pathUrlCache = $pathUrlCache;
 
         return $this;
     }

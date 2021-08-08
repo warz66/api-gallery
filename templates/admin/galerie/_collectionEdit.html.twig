@@ -28,7 +28,7 @@
                 </a>
             {% else %}
                 <a href="{{ galerie_content_path ~ form.vars.value.url }}" data-fancybox="images" data-caption="{{ form.caption.vars.value }}">
-                    <img src="{{ form.vars.value.url | imagine_filter('galerie_content_edit') }}" alt="">
+                    <img src="{{ form.vars.value.url | imagine_filter('galerie_content_thumb') }}" alt="">
                 </a>
             {% endif %}
         </div>

@@ -10,10 +10,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * @ORM\Entity(repositoryClass=TableauRepository::class)
  * @ApiResource(
- *     normalizationContext={"groups"={"read"}},
- *     denormalizationContext={"groups"={"write"}},
- *     collectionOperations={"get"},
- *     itemOperations={"get"}
+ *     collectionOperations={"GET"},
+ *     itemOperations={"GET"}
  * ) 
  */
 class Tableau
@@ -27,31 +25,36 @@ class Tableau
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"read"})
+     * @Groups({"galeries_read"})
+     * @Groups({"images_read"})
      */
     private $title;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
-     * @Groups({"read"})
+     * @Groups({"galeries_read"})
+     * @Groups({"images_read"})
      */
     private $year;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
-     * @Groups({"read"})
+     * @Groups({"galeries_read"})
+     * @Groups({"images_read"})
      */
     private $width;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
-     * @Groups({"read"})
+     * @Groups({"galeries_read"})
+     * @Groups({"images_read"})
      */
     private $height;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"read"})
+     * @Groups({"galeries_read"})
+     * @Groups({"images_read"})
      */
     private $technique;
 

@@ -14,6 +14,7 @@ use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Liip\ImagineBundle\Imagine\Cache\CacheManager;
 
 class AdminGalerieController extends AbstractController
 {
@@ -21,8 +22,11 @@ class AdminGalerieController extends AbstractController
      * 
      * @Route("/admin/galerie/{page<\d+>?1}", name="admin_galerie_index")
      */
-    public function index($page, GalerieRepository $repo, Request $request, PaginatorInterface $paginator)
+    public function index($page, GalerieRepository $repo, Request $request, PaginatorInterface $paginator, CacheManager $imagineCacheManager)
     {   
+        $routeName = $request->attributes->get('_route');
+        $routeParameters = $request->attributes->get('_route_params');
+        dump($request->getSchemeAndHttpHost());
         // on crée la pagination
         $nbPage = 30;
         $data = $repo->findGaleries(0);

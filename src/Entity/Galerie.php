@@ -4,13 +4,19 @@ namespace App\Entity;
 
 use Cocur\Slugify\Slugify;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Core\Annotation\ApiFilter;
+use App\Controller\GalerieReturnController;
 use Doctrine\Common\Collections\Collection;
+use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
@@ -20,11 +26,32 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  * @ORM\HasLifecycleCallbacks()
  * @UniqueEntity(fields={"title"}, message="Une autre galerie possède déjà ce titre, merci de le modifier")
  * @ApiResource(
- *     normalizationContext={"groups"={"read"}},
- *     denormalizationContext={"groups"={"write"}},
- *     collectionOperations={"get"},
- *     itemOperations={"get"}
+ *     normalizationContext={"groups"={"galeries_read"}},
+ *     collectionOperations={"galeries"={
+ *      "method"="get", 
+ *      "path"="/galeries", 
+ *      "controller"=App\Controller\UpdateGaleriesController::class, 
+ *      "openapi_context"={
+ *          "summary"="qsdfgqsdfsqdf",
+ *          "description"="sdfqgqdsfgsdfg"
+ *      },
+ *     }
+ *    },
+ *     itemOperations={"galerie"={
+ *      "method"="get", 
+ *      "path"="/galerie/{slug}", 
+ *      "defaults"={"identifiedBy"="slug"},
+ *      "controller"=App\Controller\UpdateGalerieController::class, 
+ *      "openapi_context"={
+ *          "summary"="qsdfgqsdfsqdf",
+ *          "description"="sdfqgqdsfgsdfg"
+ *      },
+ *     }
+ *    },
  * )
+ * @ApiFilter(SearchFilter::class, properties={"title"})
+ * @ApiFilter(OrderFilter::class, properties={"images.ordre"})
+ * @ApiFilter(BooleanFilter::class, properties={"trash"})
  */
 class Galerie
 {
@@ -32,28 +59,53 @@ class Galerie
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"read"})
+     * @Groups({"galeries_read"})
+     * @ApiProperty(identifier=false)
      */
     private $id;
+
+    /**
+     * @Groups({"galeries_read"})
+     * @Groups({"images_read"})
+     */
+    private $pathImg;
+
+    /**
+     * @Groups({"galeries_read"})
+     * @Groups({"images_read"})
+     */
+    private $pathImgCache;
+
+    /**
+     * @Groups({"galeries_read"})
+     * @Groups({"images_read"})
+     */
+    private $pathImgCover;
+
+    /**
+     * @Groups({"galeries_read"})
+     * @Groups({"images_read"})
+     */
+    private $pathImgCoverCache;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\Length(max=100, maxMessage="Le titre ne peut pas faire plus de 100 caractères")
      * @Assert\NotBlank
-     * @Groups({"read"})
+     * @Groups({"galeries_read"})
      */
     private $title;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Assert\Length(max=255, maxMessage="La description ne peut pas faire plus de 255 caractères")
-     * @Groups({"read"})
+     * @Groups({"galeries_read"})
      */
     private $description;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"read"})
+     * @Groups({"galeries_read"})
      */
     private $cover_image;
 
@@ -66,12 +118,14 @@ class Galerie
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Image", mappedBy="galerie", orphanRemoval=true, cascade={"persist"})
-     * @Groups({"read"}) 
+     * @Groups({"galeries_read"})
      */
     private $images;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"galeries_read"}) 
+     * @ApiProperty(identifier=true)
      */
     private $slug;
 
@@ -87,7 +141,7 @@ class Galerie
 
     /**
      * @ORM\Column(type="boolean")
-     * @Groups({"read"})
+     * @Groups({"galeries_read"})
      */
     private $statut;
 
@@ -337,4 +391,84 @@ class Galerie
         return $this;
     }
 
+
+    /**
+     * Get the value of pathImg
+     */ 
+    public function getPathImg()
+    {
+        return $this->pathImg;
+    }
+
+    /**
+     * Set the value of pathImg
+     *
+     * @return  self
+     */ 
+    public function setPathImg($pathImg)
+    {
+        $this->pathImg = $pathImg;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of pathImgCache
+     */ 
+    public function getPathImgCache()
+    {
+        return $this->pathImgCache;
+    }
+
+    /**
+     * Set the value of pathImgCache
+     *
+     * @return  self
+     */ 
+    public function setPathImgCache($pathImgCache)
+    {
+        $this->pathImgCache = $pathImgCache;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of pathImgCover
+     */ 
+    public function getPathImgCover()
+    {
+        return $this->pathImgCover;
+    }
+
+    /**
+     * Set the value of pathImgCover
+     *
+     * @return  self
+     */ 
+    public function setPathImgCover($pathImgCover)
+    {
+        $this->pathImgCover = $pathImgCover;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of pathImgCoverCache
+     */ 
+    public function getPathImgCoverCache()
+    {
+        return $this->pathImgCoverCache;
+    }
+
+    /**
+     * Set the value of pathImgCoverCache
+     *
+     * @return  self
+     */ 
+    public function setPathImgCoverCache($pathImgCoverCache)
+    {
+        $this->pathImgCoverCache = $pathImgCoverCache;
+
+        return $this;
+    }
 }
