@@ -22,7 +22,7 @@ liip_imagine:
         galerie_content_thumb: 
             cache: galerie_images_cache
             data_loader: galerie_content
-            quality : 80
+            quality : 90
             filters:
                 scale:
                     dim: [ 600, 800 ]
