@@ -29,7 +29,7 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  *     normalizationContext={"groups"={"galeries_read"}},
  *     collectionOperations={"galeries"={
  *      "method"="get", 
- *      "path"="/galeries", 
+ *      "path"="/galeries",
  *      "controller"=App\Controller\UpdateGaleriesController::class, 
  *      "openapi_context"={
  *          "summary"="qsdfgqsdfsqdf",
@@ -51,10 +51,10 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  * )
  * @ApiFilter(SearchFilter::class, properties={"title"})
  * @ApiFilter(OrderFilter::class, properties={"images.ordre"})
- * @ApiFilter(BooleanFilter::class, properties={"trash"})
  */
 class Galerie
-{
+{   
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -63,30 +63,6 @@ class Galerie
      * @ApiProperty(identifier=false)
      */
     private $id;
-
-    /**
-     * @Groups({"galeries_read"})
-     * @Groups({"images_read"})
-     */
-    private $pathImg;
-
-    /**
-     * @Groups({"galeries_read"})
-     * @Groups({"images_read"})
-     */
-    private $pathImgCache;
-
-    /**
-     * @Groups({"galeries_read"})
-     * @Groups({"images_read"})
-     */
-    private $pathImgCover;
-
-    /**
-     * @Groups({"galeries_read"})
-     * @Groups({"images_read"})
-     */
-    private $pathImgCoverCache;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -104,8 +80,19 @@ class Galerie
     private $description;
 
     /**
-     * @ORM\Column(type="string", length=255)
      * @Groups({"galeries_read"})
+     * @Groups({"images_read"})
+     */
+    private $pathImgCover;
+
+    /**
+     * @Groups({"galeries_read"})
+     * @Groups({"images_read"})
+     */
+    private $pathImgCoverCache;
+
+    /**
+     * @ORM\Column(type="string", length=255)
      */
     private $cover_image;
 
@@ -154,6 +141,11 @@ class Galerie
      * @ORM\Column(type="string", length=255)
      */
     private $par_ordre;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $reference;
 
     /**
      * Permet de contraindre la validation si une image de couverture n'a pas été ajouté 
@@ -296,6 +288,13 @@ class Galerie
         return $this->images;
     }
 
+    public function setImages(Collection $images): self
+    {
+        $this->images = $images;
+
+        return $this;
+    }
+
     public function addImage(Image $image): self
     {
         if (!$this->images->contains($image)) {
@@ -391,47 +390,6 @@ class Galerie
         return $this;
     }
 
-
-    /**
-     * Get the value of pathImg
-     */ 
-    public function getPathImg()
-    {
-        return $this->pathImg;
-    }
-
-    /**
-     * Set the value of pathImg
-     *
-     * @return  self
-     */ 
-    public function setPathImg($pathImg)
-    {
-        $this->pathImg = $pathImg;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of pathImgCache
-     */ 
-    public function getPathImgCache()
-    {
-        return $this->pathImgCache;
-    }
-
-    /**
-     * Set the value of pathImgCache
-     *
-     * @return  self
-     */ 
-    public function setPathImgCache($pathImgCache)
-    {
-        $this->pathImgCache = $pathImgCache;
-
-        return $this;
-    }
-
     /**
      * Get the value of pathImgCover
      */ 
@@ -468,6 +426,18 @@ class Galerie
     public function setPathImgCoverCache($pathImgCoverCache)
     {
         $this->pathImgCoverCache = $pathImgCoverCache;
+
+        return $this;
+    }
+
+    public function getReference(): ?string
+    {
+        return $this->reference;
+    }
+
+    public function setReference(?string $reference): self
+    {
+        $this->reference = $reference;
 
         return $this;
     }

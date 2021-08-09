@@ -51,17 +51,18 @@ class Image
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"galeries_read"})
      */
     private $url;
 
     /**
      * @Groups({"images_read"})
+     * @Groups({"galeries_read"})
      */
     private $pathUrl;
 
     /**
      * @Groups({"images_read"})
+     * @Groups({"galeries_read"})
      */
     private $pathUrlCache;
 

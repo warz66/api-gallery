@@ -21,7 +21,6 @@ class CreateImageCacheListener
         $this->cacheManager = $cacheManager;
         $this->filterName = $filterName;
     }
-
     
     public function postPersist(Image $image)
     {   

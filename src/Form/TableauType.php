@@ -29,15 +29,15 @@ class TableauType extends AbstractType
                 'label' => false,
                 'attr' => ['class' => 'config-img-input', 'placeholder' => 'Année'],
             ])
-            ->add('width', IntegerType::class, [
-                'required' => false,
-                'label' => false,
-                'attr' => ['class' => 'config-img-input', 'placeholder' => 'Largeur'],
-            ])
             ->add('height', IntegerType::class, [
                 'required' => false,
                 'label' => false,
                 'attr' => ['class' => 'config-img-input', 'placeholder' => 'Hauteur'],
+            ])
+            ->add('width', IntegerType::class, [
+                'required' => false,
+                'label' => false,
+                'attr' => ['class' => 'config-img-input', 'placeholder' => 'Largeur'],
             ])
         ;
     }

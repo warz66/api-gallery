@@ -23,10 +23,12 @@ class CreateCoverImageCacheListener
     }
 
     private function makeImgCache(Galerie $galerie) {
-        if (false == $this->cacheManager->isStored($galerie->getCoverImage(), $this->filterName)) {
-            $binary = $this->dataManager->find($this->filterName, $galerie->getCoverImage());
-            $this->cacheManager->store($this->filterManager->applyFilter($binary, $this->filterName), $galerie->getCoverImage(), $this->filterName);
-        } 
+        if (!empty($galerie->getImageFile())) {
+            if (false == $this->cacheManager->isStored($galerie->getCoverImage(), $this->filterName)) {
+                $binary = $this->dataManager->find($this->filterName, $galerie->getCoverImage());
+                $this->cacheManager->store($this->filterManager->applyFilter($binary, $this->filterName), $galerie->getCoverImage(), $this->filterName);
+            }
+        }   
     }
 
     public function postPersist(Galerie $galerie)
@@ -36,7 +38,7 @@ class CreateCoverImageCacheListener
     
     public function postUpdate(Galerie $galerie)
     {   
-        $this->makeImgCache($galerie);     
+        $this->makeImgCache($galerie);      
     }
 
 }
