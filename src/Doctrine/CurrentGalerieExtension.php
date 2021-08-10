@@ -12,7 +12,7 @@ final class CurrentGalerieExtension implements QueryCollectionExtensionInterface
 {
 
     public function applyToCollection(QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, string $resourceClass, string $operationName = null): void
-    {
+    {   
         $this->addWhere($queryBuilder, $resourceClass);
     }
 
