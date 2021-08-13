@@ -72,7 +72,7 @@ class AppFixtures extends Fixture
                 $image= new Image();
                 $tableau= new Tableau();
 
-                $width = mt_rand(300,1000);
+                $width = mt_rand(200,1000);
                 $height = mt_rand(200,700);
 
                 $tableau->setTechnique($techniques[array_rand($techniques)])

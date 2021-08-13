@@ -49,7 +49,7 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  *     }
  *    },
  * )
- * @ApiFilter(SearchFilter::class, properties={"slug"})
+ * @ApiFilter(SearchFilter::class, properties={"slug", "reference"})
  * @ApiFilter(OrderFilter::class, properties={"images.ordre"})
  */
 class Galerie

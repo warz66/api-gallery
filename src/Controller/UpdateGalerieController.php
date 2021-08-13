@@ -6,7 +6,6 @@ use App\Entity\Galerie;
 use Symfony\Component\HttpFoundation\Request;
 use Liip\ImagineBundle\Imagine\Cache\CacheManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class UpdateGalerieController extends AbstractController
 {
@@ -20,8 +19,13 @@ class UpdateGalerieController extends AbstractController
         $images = $galerie->getImages();
 
         foreach($images as $image) {
-            $image->setPathUrl($request->getSchemeAndHttpHost().$this->getParameter('galerie_content_path').$image->getUrl());
-            $image->setPathUrlCache($imagineCacheManager->getBrowserPath($image->getUrl(), 'galerie_content_thumb'));
+            if(strpos($image->getUrl(), 'picsum')) { // à virer en prod
+                $image->setPathUrl($image->getUrl());
+                $image->setPathUrlCache($image->getUrl());
+            } else {
+                $image->setPathUrl($request->getSchemeAndHttpHost().$this->getParameter('galerie_content_path').$image->getUrl());
+                $image->setPathUrlCache($imagineCacheManager->getBrowserPath($image->getUrl(), 'galerie_content_thumb'));
+            }
         }
 
         $galerie->setImages($images);

@@ -311,6 +311,7 @@ class AdminGalerieController extends AbstractController
      * @Route("/admin/galerie/{id}/statut", name="admin_galerie_statut")
      */
     public function statut(Galerie $galerie, EntityManagerInterface $manager) {
+
         $statut=$_POST['statut'];
         if($statut=='true') {
             $galerie->setStatut(true);
