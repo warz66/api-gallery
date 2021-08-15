@@ -60,6 +60,8 @@ class AdminGalerieController extends AbstractController
                         $img->setGalerie_content_path($this->getParameter('galerie_content_path'));
                         $img->setUrl($file);
                         $img->setGalerie($galerie);
+                        $tableau = new Tableau;
+                        $img->setTableau($tableau);
                         $manager->persist($img);
                     } else {
                         unlink($_FILES['uploadFile']['tmp_name'][$i]); // a tester
@@ -141,6 +143,8 @@ class AdminGalerieController extends AbstractController
                             $img->setUrl($file);
                             $img->setGalerie($galerie);
                             $img->setOrdre($nbImgGalerie + $i +1);
+                            $tableau = new Tableau;
+                            $img->setTableau($tableau);
                             $manager->persist($img);
                         } else {
                             unlink($_FILES['uploadFile']['tmp_name'][$i]); // a tester

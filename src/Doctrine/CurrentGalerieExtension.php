@@ -28,5 +28,10 @@ final class CurrentGalerieExtension implements QueryCollectionExtensionInterface
             $queryBuilder->andWhere(sprintf('%s.statut = 1',$rootAlias))
                          ->andWhere(sprintf('%s.trash = 0',$rootAlias));
         }
+        if (Image::class === $resourceClass) {
+            $rootAlias = $queryBuilder->getRootAliases()[0];
+            $queryBuilder->andWhere(sprintf('%s.galerie.statut = 1',$rootAlias))
+                         ->andWhere(sprintf('%s.galerie.trash = 0',$rootAlias));
+        }
     }
 }

@@ -25,35 +25,35 @@ class Tableau
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"galeries_read"})
+     * @Groups({"galeries_read_images"})
      * @Groups({"images_read"})
      */
     private $title;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
-     * @Groups({"galeries_read"})
+     * @Groups({"galeries_read_images"})
      * @Groups({"images_read"})
      */
     private $year;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
-     * @Groups({"galeries_read"})
+     * @Groups({"galeries_read_images"})
      * @Groups({"images_read"})
      */
     private $width;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
-     * @Groups({"galeries_read"})
+     * @Groups({"galeries_read_images"})
      * @Groups({"images_read"})
      */
     private $height;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"galeries_read"})
+     * @Groups({"galeries_read_images"})
      * @Groups({"images_read"})
      */
     private $technique;

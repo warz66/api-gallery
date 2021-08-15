@@ -9,11 +9,16 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class UpdateImagesController extends AbstractController
 {
-    public function __invoke(Paginator $data, CacheManager $imagineCacheManager, Request $request)
+    public function __invoke($data, CacheManager $imagineCacheManager, Request $request) // si pagination active Paginator $data
     {   
         foreach($data as $image) {
-            $image->setPathUrl($request->getSchemeAndHttpHost().$this->getParameter('galerie_content_path').$image->getUrl());
-            $image->setPathUrlCache($imagineCacheManager->resolve('/','galerie_content_thumb','galerie_images_cache').$image->getUrl());
+            if(strpos($image->getUrl(), 'picsum')) { // à virer en prod
+                $image->setPathUrl($image->getUrl());
+                $image->setPathUrlCache($image->getUrl());
+            } else {
+                $image->setPathUrl($request->getSchemeAndHttpHost().$this->getParameter('galerie_content_path').$image->getUrl());
+                $image->setPathUrlCache($imagineCacheManager->resolve('/','galerie_content_thumb','galerie_images_cache').$image->getUrl());
+            }
         }
         return $data;
     }

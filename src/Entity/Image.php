@@ -9,6 +9,7 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\RangeFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
 
@@ -16,6 +17,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
  * @ORM\Entity(repositoryClass="App\Repository\ImageRepository")
  * @ORM\HasLifecycleCallbacks
  * @ApiResource(
+ *     attributes={"pagination_enabled"=false},
  *     normalizationContext={"groups"={"images_read"}},
  *     collectionOperations={"images"={
  *      "method"="get", 
@@ -29,9 +31,9 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
  *    },
  *     itemOperations={"GET"}
  * )
- * @ApiFilter(SearchFilter::class, properties={"galerie.slug"})
+ * @ApiFilter(SearchFilter::class, properties={"galerie.id", "tableau.width", "tableau.year"})
+ * @ApiFilter(RangeFilter::class, properties={"tableau.width", "tableau.year"})
  * @ApiFilter(OrderFilter::class, properties={"ordre"})
- * @ApiFilter(BooleanFilter::class, properties={"galerie.trash"})
  */
 class Image
 {
@@ -39,12 +41,13 @@ class Image
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"images_read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"galeries_read"})
+     * @Groups({"galeries_read_images"})
      * @Groups({"images_read"})
      */
     private $caption;
@@ -56,13 +59,13 @@ class Image
 
     /**
      * @Groups({"images_read"})
-     * @Groups({"galeries_read"})
+     * @Groups({"galeries_read_images"})
      */
     private $pathUrl;
 
     /**
      * @Groups({"images_read"})
-     * @Groups({"galeries_read"})
+     * @Groups({"galeries_read_images"})
      */
     private $pathUrlCache;
 
@@ -77,14 +80,14 @@ class Image
 
     /**
      * @ORM\OneToOne(targetEntity=Tableau::class, cascade={"persist", "remove"})
-     * @Groups({"galeries_read"})
+     * @Groups({"galeries_read_images"})
      * @Groups({"images_read"})
      */
     private $tableau;
 
     /**
      * @ORM\Column(type="float", nullable=true)
-     * @Groups({"galeries_read"})
+     * @Groups({"galeries_read_images"})
      * @Groups({"images_read"})
      */
     private $ordre;

@@ -26,14 +26,30 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  * @ORM\HasLifecycleCallbacks()
  * @UniqueEntity(fields={"title"}, message="Une autre galerie possède déjà ce titre, merci de le modifier")
  * @ApiResource(
- *     normalizationContext={"groups"={"galeries_read"}},
- *     collectionOperations={"galeries"={
- *      "method"="get", 
- *      "path"="/galeries",
- *      "controller"=App\Controller\UpdateGaleriesController::class, 
- *      "openapi_context"={
- *          "summary"="qsdfgqsdfsqdf",
- *          "description"="sdfqgqdsfgsdfg"
+ *     normalizationContext={"groups"={"galeries_read", "galeries_read_images"}},
+ *     collectionOperations={
+ *      "galeries"={
+ *          "method"="get", 
+ *          "path"="/galeries",
+ *          "controller"=App\Controller\UpdateGaleriesWithoutImgsController::class,
+ *          "normalization_context"={
+ *              "groups"="galeries_read"
+ *          },
+ *          "openapi_context"={
+ *              "summary"="qsdfgqsdfsqdf",
+ *              "description"="sdfqgqdsfgsdfg"
+ *          },
+ *      },
+ *      "galeries-images"={
+ *          "method"="get", 
+ *          "path"="/galeries-images",
+ *          "controller"=App\Controller\UpdateGaleriesController::class, 
+ *          "normalization_context"={
+ *              "groups"="galeries_read_images"
+ *          },
+ *          "openapi_context"={
+ *              "summary"="qsdfgqsdfsqdf",
+ *              "description"="sdfqgqdsfgsdfg"
  *      },
  *     }
  *    },
@@ -49,7 +65,7 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  *     }
  *    },
  * )
- * @ApiFilter(SearchFilter::class, properties={"slug", "reference"})
+ * @ApiFilter(SearchFilter::class, properties={"slug", "reference", "image.tableau.year", "id"})
  * @ApiFilter(OrderFilter::class, properties={"images.ordre"})
  */
 class Galerie
@@ -59,7 +75,7 @@ class Galerie
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"galeries_read"})
+     * @Groups({"galeries_read_images", "galeries_read"})
      * @ApiProperty(identifier=false)
      */
     private $id;
@@ -68,26 +84,26 @@ class Galerie
      * @ORM\Column(type="string", length=255)
      * @Assert\Length(max=100, maxMessage="Le titre ne peut pas faire plus de 100 caractères")
      * @Assert\NotBlank
-     * @Groups({"galeries_read"})
+     * @Groups({"galeries_read_images", "galeries_read"})
      */
     private $title;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Assert\Length(max=255, maxMessage="La description ne peut pas faire plus de 255 caractères")
-     * @Groups({"galeries_read"})
+     * @Groups({"galeries_read_images", "galeries_read"})
      */
     private $description;
 
     /**
      * @Groups({"galeries_read"})
-     * @Groups({"images_read"})
+     * @Groups({"galeries_read_images", "galeries_read"})
      */
     private $pathImgCover;
 
     /**
      * @Groups({"galeries_read"})
-     * @Groups({"images_read"})
+     * @Groups({"galeries_read_images", "galeries_read"})
      */
     private $pathImgCoverCache;
 
@@ -105,13 +121,13 @@ class Galerie
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Image", mappedBy="galerie", orphanRemoval=true, cascade={"persist"})
-     * @Groups({"galeries_read"})
+     * @Groups({"galeries_read_images"})
      */
     private $images;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"galeries_read"}) 
+     * @Groups({"galeries_read_images", "galeries_read"}) 
      * @ApiProperty(identifier=true)
      */
     private $slug;
@@ -128,7 +144,6 @@ class Galerie
 
     /**
      * @ORM\Column(type="boolean")
-     * @Groups({"galeries_read"})
      */
     private $statut;
 

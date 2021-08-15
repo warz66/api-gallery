@@ -7,7 +7,7 @@ use Liip\ImagineBundle\Imagine\Cache\CacheManager;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Paginator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class UpdateGaleriesController extends AbstractController
+class UpdateGaleriesWithoutImgsController extends AbstractController
 {
     public function __invoke(Paginator $data, CacheManager $imagineCacheManager, Request $request)
     {   
@@ -16,20 +16,6 @@ class UpdateGaleriesController extends AbstractController
             $galerie->setPathImgCover($request->getSchemeAndHttpHost().$this->getParameter('galerie_cover_path').$galerie->getCoverImage());
         
             $galerie->setPathImgCoverCache($imagineCacheManager->getBrowserPath($galerie->getCoverImage() ,'galerie_cover_thumb'));
-
-            $images = $galerie->getImages();
-
-            foreach($images as $image) {
-                if(strpos($image->getUrl(), 'picsum')) { // à virer en prod
-                    $image->setPathUrl($image->getUrl());
-                    $image->setPathUrlCache($image->getUrl());
-                } else {
-                    $image->setPathUrl($request->getSchemeAndHttpHost().$this->getParameter('galerie_content_path').$image->getUrl());
-                    $image->setPathUrlCache($imagineCacheManager->getBrowserPath($image->getUrl(), 'galerie_content_thumb'));
-                }
-            }
-    
-            $galerie->setImages($images);
 
         }
         
