@@ -2,13 +2,13 @@
 
 namespace App\Doctrine;
 
-use App\Entity\Galerie;
+use App\Entity\Image;
 use Doctrine\ORM\QueryBuilder;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Util\QueryNameGeneratorInterface;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Extension\QueryItemExtensionInterface;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Extension\QueryCollectionExtensionInterface;
 
-final class CurrentGalerieExtension implements QueryCollectionExtensionInterface, QueryItemExtensionInterface
+final class CurrentImageExtension implements QueryCollectionExtensionInterface, QueryItemExtensionInterface
 {
 
     public function applyToCollection(QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, string $resourceClass, string $operationName = null): void
@@ -23,10 +23,12 @@ final class CurrentGalerieExtension implements QueryCollectionExtensionInterface
 
     private function addWhere(QueryBuilder $queryBuilder, string $resourceClass): void
     {   
-        if (Galerie::class === $resourceClass) {
+        if (Image::class === $resourceClass) {
             $rootAlias = $queryBuilder->getRootAliases()[0];
-            $queryBuilder->andWhere(sprintf('%s.statut = 1',$rootAlias))
-                         ->andWhere(sprintf('%s.trash = 0',$rootAlias));
+            $queryBuilder->leftJoin(sprintf('%s.galerie',$rootAlias), 'galerie')
+                         ->addSelect('galerie')
+                         ->andWhere(sprintf('galerie.statut = 1',$rootAlias))
+                         ->andWhere(sprintf('galerie.trash = 0',$rootAlias));
         }
     }
 }

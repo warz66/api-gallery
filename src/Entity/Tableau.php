@@ -9,6 +9,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=TableauRepository::class)
+ * @ORM\HasLifecycleCallbacks()
  * @ApiResource(
  *     collectionOperations={"GET"},
  *     itemOperations={"GET"}
@@ -57,6 +58,23 @@ class Tableau
      * @Groups({"images_read"})
      */
     private $technique;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     * @Groups({"images_read"})
+     */
+    private $surface;
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function setSurfacePrePersist()
+    {
+        if (!empty($this->width) && !empty($this->height)) {
+            $this->surface = $this->width*$this->height;
+        }
+        return null;
+    }
 
     public function getId(): ?int
     {
@@ -119,6 +137,18 @@ class Tableau
     public function setTechnique(?string $technique): self
     {
         $this->technique = $technique;
+
+        return $this;
+    }
+
+    public function getSurface(): ?int
+    {
+        return $this->surface;
+    }
+    
+    public function setSurface(?int $surface): self
+    {
+        $this->surface = $surface;
 
         return $this;
     }

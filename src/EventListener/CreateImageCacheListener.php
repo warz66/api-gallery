@@ -24,10 +24,12 @@ class CreateImageCacheListener
     
     public function postPersist(Image $image)
     {   
-        if (false == $this->cacheManager->isStored($image->getUrl(), $this->filterName)) {
-            $binary = $this->dataManager->find($this->filterName, $image->getUrl());
-            $this->cacheManager->store($this->filterManager->applyFilter($binary, $this->filterName), $image->getUrl(), $this->filterName);
-        }      
+        if(!strpos($image->getUrl(), 'picsum')) { // à virer une fois en prod et remplacer file_exists sur l'image originale.
+            if (false == $this->cacheManager->isStored($image->getUrl(), $this->filterName)) {
+                $binary = $this->dataManager->find($this->filterName, $image->getUrl());
+                $this->cacheManager->store($this->filterManager->applyFilter($binary, $this->filterName), $image->getUrl(), $this->filterName);
+            }
+        }
     }
 
 }

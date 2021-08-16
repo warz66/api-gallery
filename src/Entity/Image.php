@@ -12,12 +12,12 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\RangeFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
+// *     attributes={"pagination_enabled"=false},
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ImageRepository")
  * @ORM\HasLifecycleCallbacks
  * @ApiResource(
- *     attributes={"pagination_enabled"=false},
  *     normalizationContext={"groups"={"images_read"}},
  *     collectionOperations={"images"={
  *      "method"="get", 
@@ -31,8 +31,8 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
  *    },
  *     itemOperations={"GET"}
  * )
- * @ApiFilter(SearchFilter::class, properties={"galerie.id", "tableau.width", "tableau.year"})
- * @ApiFilter(RangeFilter::class, properties={"tableau.width", "tableau.year"})
+ * @ApiFilter(SearchFilter::class, properties={"galerie.id", "galerie.reference"})
+ * @ApiFilter(RangeFilter::class, properties={"tableau.surface", "tableau.year"})
  * @ApiFilter(OrderFilter::class, properties={"ordre"})
  */
 class Image
