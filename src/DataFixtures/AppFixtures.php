@@ -47,6 +47,8 @@ class AppFixtures extends Fixture
                   ->setRole($adminRole);
         $manager->persist($adminUser);
 
+        $themes = ['Cosmique', 'Nature morte', 'Nu', 'Paysage'];
+
         $techniques = ['Aquarelle', 'Acrylique', 'Huile', 'Gouache', 'Pastel'];
 
         for($i = 1;$i <= 10; $i++) {
@@ -64,6 +66,8 @@ class AppFixtures extends Fixture
                     ->setSlug($slug)
                     ->setCoverImage($coverImage)
                     ->setDescription($description)
+                    ->setReference('svenrybin')
+                    ->setTheme($themes[array_rand($themes)])
                     ->setCreateAt($createdAt)
                     ->setUpdatedAt($updatedAt)
                     ->setStatut(true);

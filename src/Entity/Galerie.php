@@ -163,6 +163,12 @@ class Galerie
     private $reference;
 
     /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"galeries_read"})
+     */
+    private $theme;
+
+    /**
      * Permet de contraindre la validation si une image de couverture n'a pas été ajouté 
      * @Assert\Callback
      */
@@ -453,6 +459,18 @@ class Galerie
     public function setReference(?string $reference): self
     {
         $this->reference = $reference;
+
+        return $this;
+    }
+
+    public function getTheme(): ?string
+    {
+        return $this->theme;
+    }
+
+    public function setTheme(?string $theme): self
+    {
+        $this->theme = $theme;
 
         return $this;
     }

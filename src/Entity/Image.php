@@ -31,7 +31,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
  *    },
  *     itemOperations={"GET"}
  * )
- * @ApiFilter(SearchFilter::class, properties={"galerie.id", "galerie.reference"})
+ * @ApiFilter(SearchFilter::class, properties={"galerie.id", "galerie.reference", "galerie.theme"})
  * @ApiFilter(RangeFilter::class, properties={"tableau.surface", "tableau.year"})
  * @ApiFilter(OrderFilter::class, properties={"ordre"})
  */
