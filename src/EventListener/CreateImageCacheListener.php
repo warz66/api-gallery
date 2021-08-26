@@ -15,7 +15,7 @@ class CreateImageCacheListener
     private $cacheManager;
     private $filterName;
 
-    public function __construct(FilterManager $filterManager, DataManager $dataManager, CacheManager $cacheManager,string $filterName) {      
+    public function __construct(FilterManager $filterManager, DataManager $dataManager, CacheManager $cacheManager,array $filterName) {      
         $this->filterManager = $filterManager;
         $this->dataManager = $dataManager;
         $this->cacheManager = $cacheManager;
@@ -25,9 +25,11 @@ class CreateImageCacheListener
     public function postPersist(Image $image)
     {   
         if(!strpos($image->getUrl(), 'picsum')) { // à virer une fois en prod et remplacer file_exists sur l'image originale.
-            if (false == $this->cacheManager->isStored($image->getUrl(), $this->filterName)) {
-                $binary = $this->dataManager->find($this->filterName, $image->getUrl());
-                $this->cacheManager->store($this->filterManager->applyFilter($binary, $this->filterName), $image->getUrl(), $this->filterName);
+            foreach($this->filterName as $filter) {
+                if (false == $this->cacheManager->isStored($image->getUrl(), $filter)) {
+                    $binary = $this->dataManager->find($filter, $image->getUrl());
+                    $this->cacheManager->store($this->filterManager->applyFilter($binary, $filter), $image->getUrl(), $filter);
+                }
             }
         }
     }

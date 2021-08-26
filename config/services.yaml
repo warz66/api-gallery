@@ -48,7 +48,7 @@ services:
         tags:
             - { name: doctrine.orm.entity_listener, event: postPersist, entity: 'App\Entity\Image' }
         arguments:
-            $filterName: 'galerie_content_thumb'
+            $filterName: ['galerie_content_thumb', 'galerie_content_thumb_webp']
 
     App\EventListener\CreateCoverImageCacheListener:
         tags:

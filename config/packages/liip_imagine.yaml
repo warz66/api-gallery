@@ -16,19 +16,30 @@ liip_imagine:
         galerie_cover:
             filesystem:
                 data_root: "%kernel.project_dir%/public/img/indatabase/galerie/cover"
+        galerie_content_webp:
+            filesystem:
+                data_root: "%kernel.project_dir%/public/img/indatabase/galerie/content"
 
     filter_sets :
         cache: ~
 
         # Galerie
-                        
+
+        galerie_content_thumb_webp: 
+            cache: galerie_images_cache
+            data_loader: galerie_content_webp
+            format: webp
+            quality : 90
+            filters:
+                scale:
+                    dim: [ 450, 800 ]      
         galerie_content_thumb: 
             cache: galerie_images_cache
             data_loader: galerie_content
             quality : 90
             filters:
                 scale:
-                    dim: [ 600, 800 ]
+                    dim: [ 450, 800 ]
         galerie_cover_index_thumb:
             cache: galerie_images_cache
             data_loader: galerie_cover

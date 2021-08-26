@@ -69,6 +69,12 @@ class Image
      */
     private $pathUrlCache;
 
+        /**
+     * @Groups({"images_read"})
+     * @Groups({"galeries_read_images"})
+     */
+    private $pathUrlWebpCache;
+
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Galerie", inversedBy="images")
      */
@@ -229,6 +235,26 @@ class Image
     public function setPathUrlCache($pathUrlCache)
     {
         $this->pathUrlCache = $pathUrlCache;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of pathUrlWebpCache
+     */ 
+    public function getPathUrlWebpCache()
+    {
+        return $this->pathUrlWebpCache;
+    }
+
+    /**
+     * Set the value of pathUrlWebpCache
+     *
+     * @return  self
+     */ 
+    public function setPathUrlWebpCache($pathUrlWebpCache)
+    {
+        $this->pathUrlWebpCache = $pathUrlWebpCache;
 
         return $this;
     }

@@ -15,9 +15,11 @@ class UpdateImagesController extends AbstractController
             if(strpos($image->getUrl(), 'picsum')) { // à virer en prod
                 $image->setPathUrl($image->getUrl());
                 $image->setPathUrlCache($image->getUrl());
+                $image->setPathUrlWebpCache($image->getUrl());
             } else {
                 $image->setPathUrl($request->getSchemeAndHttpHost().$this->getParameter('galerie_content_path').$image->getUrl());
                 $image->setPathUrlCache($imagineCacheManager->resolve('/','galerie_content_thumb','galerie_images_cache').$image->getUrl());
+                $image->setPathUrlWebpCache($imagineCacheManager->resolve('/','galerie_content_thumb_webp','galerie_images_cache').$image->getUrl());
             }
         }
         return $data;
