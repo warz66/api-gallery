@@ -40,18 +40,6 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  *              "description"="sdfqgqdsfgsdfg"
  *          },
  *      },
- *      "galeries-images"={
- *          "method"="get", 
- *          "path"="/galeries-images",
- *          "controller"=App\Controller\UpdateGaleriesController::class, 
- *          "normalization_context"={
- *              "groups"="galeries_read_images"
- *          },
- *          "openapi_context"={
- *              "summary"="qsdfgqsdfsqdf",
- *              "description"="sdfqgqdsfgsdfg"
- *      },
- *     }
  *    },
  *     itemOperations={"galerie"={
  *      "method"="get", 
@@ -75,7 +63,7 @@ class Galerie
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"galeries_read_images", "galeries_read"})
+     * @Groups({"galeries_read"})
      * @ApiProperty(identifier=false)
      */
     private $id;
@@ -84,26 +72,26 @@ class Galerie
      * @ORM\Column(type="string", length=255)
      * @Assert\Length(max=100, maxMessage="Le titre ne peut pas faire plus de 100 caractères")
      * @Assert\NotBlank
-     * @Groups({"galeries_read_images", "galeries_read"})
+     * @Groups({"galeries_read"})
      */
     private $title;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Assert\Length(max=255, maxMessage="La description ne peut pas faire plus de 255 caractères")
-     * @Groups({"galeries_read_images", "galeries_read"})
+     * @Groups({"galeries_read"})
      */
     private $description;
 
     /**
      * @Groups({"galeries_read"})
-     * @Groups({"galeries_read_images", "galeries_read"})
+     * @Groups({"galeries_read"})
      */
     private $pathImgCover;
 
     /**
      * @Groups({"galeries_read"})
-     * @Groups({"galeries_read_images", "galeries_read"})
+     * @Groups({"galeries_read"})
      */
     private $pathImgCoverCache;
 
@@ -121,13 +109,12 @@ class Galerie
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Image", mappedBy="galerie", orphanRemoval=true, cascade={"persist"})
-     * @Groups({"galeries_read_images"})
      */
     private $images;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"galeries_read_images", "galeries_read"}) 
+     * @Groups({"galeries_read"}) 
      * @ApiProperty(identifier=true)
      */
     private $slug;
@@ -272,7 +259,7 @@ class Galerie
 
     public function setTitle(string $title): self
     {
-        $this->title = $title;
+        $this->title = ucfirst($title);
 
         return $this;
     }
@@ -470,7 +457,7 @@ class Galerie
 
     public function setTheme(?string $theme): self
     {
-        $this->theme = $theme;
+        $this->theme = ucfirst($theme);
 
         return $this;
     }

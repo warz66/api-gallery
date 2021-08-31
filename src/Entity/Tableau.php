@@ -10,10 +10,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * @ORM\Entity(repositoryClass=TableauRepository::class)
  * @ORM\HasLifecycleCallbacks()
- * @ApiResource(
- *     collectionOperations={"GET"},
- *     itemOperations={"GET"}
- * ) 
  */
 class Tableau
 {
@@ -26,35 +22,30 @@ class Tableau
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"galeries_read_images"})
      * @Groups({"images_read"})
      */
     private $title;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
-     * @Groups({"galeries_read_images"})
      * @Groups({"images_read"})
      */
     private $year;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
-     * @Groups({"galeries_read_images"})
      * @Groups({"images_read"})
      */
     private $width;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
-     * @Groups({"galeries_read_images"})
      * @Groups({"images_read"})
      */
     private $height;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"galeries_read_images"})
      * @Groups({"images_read"})
      */
     private $technique;
@@ -88,7 +79,7 @@ class Tableau
 
     public function setTitle(?string $title): self
     {
-        $this->title = $title;
+        $this->title = ucfirst($title);
 
         return $this;
     }
@@ -136,7 +127,7 @@ class Tableau
 
     public function setTechnique(?string $technique): self
     {
-        $this->technique = $technique;
+        $this->technique = ucfirst($technique);
 
         return $this;
     }

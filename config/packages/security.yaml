@@ -29,7 +29,7 @@ security:
             security: false
 
         admin:
-            pattern: ^/(admin|elfinder|efconnect)
+            pattern: ^/(admin)
             anonymous: true
             lazy: true
 
@@ -47,7 +47,26 @@ security:
                 authenticators:
                     - App\Security\LoginFormAuthenticator
 
-            switch_user: true    
+            switch_user: true
+        
+        login:
+            pattern: ^/api/login
+            anonymous: true
+            stateless: true
+            provider: chain_provider
+            json_login:
+                check_path: /api/login_check
+                success_handler: lexik_jwt_authentication.handler.authentication_success
+                failure_handler: lexik_jwt_authentication.handler.authentication_failure
+
+        api:
+            pattern:   ^/api
+            stateless: true
+            #anonymous: true
+            provider: chain_provider
+            guard:
+                authenticators: 
+                    - lexik_jwt_authentication.jwt_token_authenticator
 
         main:
             anonymous: true # ~
@@ -63,9 +82,8 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
+        - { path: ^/api/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api,       roles: ROLE_ADMIN }
         - { path: ^/admin/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin/user, roles: ROLE_ADMIN }
-        - { path: ^/admin/information, roles: ROLE_ADMIN }
         - { path: ^/admin, roles: ROLE_EDITEUR }
-        - { path: ^/efconnect, role: ROLE_EDITEUR }
-        - { path: ^/elfinder, role: ROLE_EDITEUR }

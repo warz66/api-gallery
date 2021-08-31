@@ -47,7 +47,6 @@ class Image
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"galeries_read_images"})
      * @Groups({"images_read"})
      */
     private $caption;
@@ -59,19 +58,16 @@ class Image
 
     /**
      * @Groups({"images_read"})
-     * @Groups({"galeries_read_images"})
      */
     private $pathUrl;
 
     /**
      * @Groups({"images_read"})
-     * @Groups({"galeries_read_images"})
      */
     private $pathUrlCache;
 
         /**
      * @Groups({"images_read"})
-     * @Groups({"galeries_read_images"})
      */
     private $pathUrlWebpCache;
 
@@ -86,14 +82,12 @@ class Image
 
     /**
      * @ORM\OneToOne(targetEntity=Tableau::class, cascade={"persist", "remove"})
-     * @Groups({"galeries_read_images"})
      * @Groups({"images_read"})
      */
     private $tableau;
 
     /**
      * @ORM\Column(type="float", nullable=true)
-     * @Groups({"galeries_read_images"})
      * @Groups({"images_read"})
      */
     private $ordre;
@@ -126,7 +120,7 @@ class Image
 
     public function setCaption(?string $caption): self
     {
-        $this->caption = $caption;
+        $this->caption = ucfirst($caption);
 
         return $this;
     }
