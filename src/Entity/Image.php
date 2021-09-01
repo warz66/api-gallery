@@ -23,10 +23,6 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
  *      "method"="get", 
  *      "path"="/images", 
  *      "controller"=App\Controller\UpdateImagesController::class, 
- *      "openapi_context"={
- *          "summary"="qsdfgqsdfsqdf",
- *          "description"="sdfqgqdsfgsdfg"
- *      },
  *     }
  *    },
  *     itemOperations={"GET"}

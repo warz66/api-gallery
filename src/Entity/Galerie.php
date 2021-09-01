@@ -36,22 +36,12 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  *              "groups"="galeries_read"
  *          },
  *          "openapi_context"={
- *              "summary"="qsdfgqsdfsqdf",
- *              "description"="sdfqgqdsfgsdfg"
+ *              "summary"="Récupère les galeries.",
+ *              "description"="Récupère l'ensemble des informations de toutes les galeries (avec filtre ou non) sans les images."
  *          },
  *      },
  *    },
- *     itemOperations={"galerie"={
- *      "method"="get", 
- *      "path"="/galerie/{slug}", 
- *      "defaults"={"identifiedBy"="slug"},
- *      "controller"=App\Controller\UpdateGalerieController::class, 
- *      "openapi_context"={
- *          "summary"="qsdfgqsdfsqdf",
- *          "description"="sdfqgqdsfgsdfg"
- *      },
- *     }
- *    },
+ *    itemOperations={"GET"}
  * )
  * @ApiFilter(SearchFilter::class, properties={"slug", "reference", "image.tableau.year", "id"})
  * @ApiFilter(OrderFilter::class, properties={"images.ordre"})
@@ -64,7 +54,6 @@ class Galerie
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      * @Groups({"galeries_read"})
-     * @ApiProperty(identifier=false)
      */
     private $id;
 
@@ -115,7 +104,6 @@ class Galerie
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups({"galeries_read"}) 
-     * @ApiProperty(identifier=true)
      */
     private $slug;
 

@@ -33,12 +33,16 @@ class AppFixtures extends Fixture
         $adminRole = new Role();    
         $adminRole->setTitle('ROLE_ADMIN');
         $manager->persist($adminRole);
-        $adminUser = new User();
 
         $adminRole2 = new Role();
         $adminRole2->setTitle('ROLE_EDITEUR');
         $manager->persist($adminRole2);
 
+        $adminRole3 = new Role();
+        $adminRole3->setTitle('ROLE_GET_API');
+        $manager->persist($adminRole3);
+
+        $adminUser = new User();
         $adminUser->setNom('admin')
                   ->setPrenom('admin')
                   ->setPassword($this->encoder->encodePassword($adminUser, 'password'))
