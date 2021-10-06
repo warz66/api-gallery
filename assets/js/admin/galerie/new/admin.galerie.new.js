@@ -8,7 +8,7 @@ $('#uploadFile').on('change', function(event) {
     var imgError=[];
     var i=0;
     $.each(files, function() {
-        if ((this['size']>=1000000) || ((this['type'] != 'image/jpeg') && (this['type'] != 'image/png'))) {
+        if ((this['size']>=2000000) || ((this['type'] != 'image/jpeg') && (this['type'] != 'image/png'))) {
             imgError[i]=this['name'];
             i++;
         }
@@ -28,7 +28,7 @@ $('#uploadFile').on('change', function(event) {
         $('#uploadFileLabel').html(filesName);
     } else {
         $('#uploadFileLabel').html('Attention, format ou taille de fichier invalide');
-        var textError = 'Formats acceptés : jpeg/png | Taille < 1Mo<br>Erreurs sur les fichiers :<br>'
+        var textError = 'Formats acceptés : jpeg/png | Taille < 2Mo<br>Erreurs sur les fichiers :<br>'
         for (var i=0;i<imgError.length;i++) {
             textError = textError+imgError[i]+', '
         }

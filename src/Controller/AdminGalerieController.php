@@ -52,7 +52,7 @@ class AdminGalerieController extends AbstractController
             if(!empty($_FILES['uploadFile']['tmp_name'][0])) {
                 $errorFile='';
                 for($i = 0; $i < count($_FILES['uploadFile']['tmp_name']); ++$i) {
-                    if(is_uploaded_file($_FILES['uploadFile']['tmp_name'][$i]) && $_FILES['uploadFile']['size'][$i] < 1000000 && $_FILES['uploadFile']['error'][$i] === 0 && ($_FILES['uploadFile']['type'][$i] === 'image/jpeg' || $_FILES['uploadFile']['type'][$i] === 'image/png')) {
+                    if(is_uploaded_file($_FILES['uploadFile']['tmp_name'][$i]) && $_FILES['uploadFile']['size'][$i] < 2000000 && $_FILES['uploadFile']['error'][$i] === 0 && ($_FILES['uploadFile']['type'][$i] === 'image/jpeg' || $_FILES['uploadFile']['type'][$i] === 'image/png')) {
                         $source_path = $_FILES['uploadFile']['tmp_name'][$i];
                         $file = uniqid() . '_' . $_FILES['uploadFile']['name'][$i];
                         $img = new Image;
@@ -134,7 +134,7 @@ class AdminGalerieController extends AbstractController
                 if(!empty($_FILES['uploadFile']['tmp_name'][0])) {
                     $errorFile='';
                     for($i = 0; $i < count($_FILES['uploadFile']['tmp_name']); ++$i) {
-                        if(is_uploaded_file($_FILES['uploadFile']['tmp_name'][$i]) && $_FILES['uploadFile']['size'][$i] < 1000000 && $_FILES['uploadFile']['error'][$i] === 0 && ($_FILES['uploadFile']['type'][$i] === 'image/jpeg' || $_FILES['uploadFile']['type'][$i] === 'image/png')) {
+                        if(is_uploaded_file($_FILES['uploadFile']['tmp_name'][$i]) && $_FILES['uploadFile']['size'][$i] < 2000000 && $_FILES['uploadFile']['error'][$i] === 0 && ($_FILES['uploadFile']['type'][$i] === 'image/jpeg' || $_FILES['uploadFile']['type'][$i] === 'image/png')) {
                             $source_path = $_FILES['uploadFile']['tmp_name'][$i];
                             $file = uniqid() . '_' . $_FILES['uploadFile']['name'][$i];
                             $img = new Image;
