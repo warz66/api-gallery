@@ -33,7 +33,9 @@
                         </td>
                     {% endif %}
                         <td onclick="document.location = '{{ path('admin_galerie_edit',{'id': galerie.id }) }}';" class="align-middle text-center">{{galerie.title}}</td>
-                        <td onclick="document.location = '{{ path('admin_galerie_edit',{'id': galerie.id }) }}';" class="align-middle text-center">{{galerie.description}}</td>
+                        <td onclick="document.location = '{{ path('admin_galerie_edit',{'id': galerie.id }) }}';" class="align-middle text-center">
+                            id: {{galerie.id}} {% if galerie.description is not empty %}| {{galerie.description}} {% endif %}
+                        </td>
                         <td class="align-middle text-center" style="width:17%">
                             <div class="custom-control custom-switch custom-switch-adaptive h5" style="margin:0;">
                                 <input data-id='{{ galerie.id }}' id="statut{{ galerie.id }}" type="checkbox" class="custom-control-input statutCheckbox" {% if galerie.statut %} checked {% endif %}>

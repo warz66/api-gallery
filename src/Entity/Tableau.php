@@ -57,9 +57,10 @@ class Tableau
     private $surface;
 
     /**
+     * @ORM\PreUpdate
      * @ORM\PrePersist
      */
-    public function setSurfacePrePersist()
+    public function setSurfacePreUpdatePersist()
     {
         if (!empty($this->width) && !empty($this->height)) {
             $this->surface = $this->width*$this->height;
